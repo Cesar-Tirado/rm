@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reto Manifestación PRO — Método de 7 días</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Reto de Manifestación de 7 días (repite 3 ciclos = 21 días). Claridad, vibración, creencias, emoción, gratitud, acción inspirada y ritual de entrega." />
+  <meta name="theme-color" content="#0b1020" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Base */
+    :root{
+      --violet:#5b6ee1;
+      --indigo:#22306b;
+      --gold:#f5d061;
+      --rose:#ff8ba7;
+      --emerald:#10b981;
+    }
+    body{
+      background:
+        radial-gradient(1200px 700px at 50% -10%, #1b2240 0%, #0b1020 60%),
+        linear-gradient(180deg, #0b1020 0%, #0b1020 100%);
+    }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.18)); border:1px solid rgba(255,255,255,0.1)}
+    .fade-in{animation:fade .45s ease-out both}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+    .dia-circulo{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;position:relative}
+    .chip-pro{position:absolute;bottom:-11px;font-size:9px;opacity:.9}
+    .progress-outer{height:6px;background:#1a2143}
+    .progress-inner{height:6px;background:linear-gradient(90deg, var(--gold), #fb7185);width:0%}
+
+    /* Popups (más opacos) */
+    .overlay{background:rgba(0,0,0,.94)}
+    .popup-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(0,0,0,0.38));
+      border:1px solid rgba(255,255,255,0.22);
+      box-shadow:0 24px 80px rgba(0,0,0,.65);
+      backdrop-filter: blur(3px);
+    }
+
+    /* Globo 4-4-4 progresivo */
+    .balloon{width:124px;height:124px;margin:0 auto;display:block}
+    .balloon__shape{transform-origin:50% 55%}
+    .phase-inhale .balloon__shape{animation:inhale 4s linear forwards}
+    .phase-hold   .balloon__shape{animation:hold 4s linear forwards}
+    .phase-exhale .balloon__shape{animation:exhale 4s linear forwards}
+    @keyframes inhale{0%{transform:scale(1)}100%{transform:scale(1.28)}}
+    @keyframes hold  {0%{transform:scale(1.28)}100%{transform:scale(1.28)}}
+    @keyframes exhale{0%{transform:scale(1.28)}100%{transform:scale(0.95)}}
+    .phase-change{animation:micro 240ms ease-in-out}
+    @keyframes micro{0%{filter:brightness(1)}50%{filter:brightness(1.07)}100%{filter:brightness(1)}}
+
+    /* Móvil horizontal: tipografía un poco más grande */
+    @media (max-height:480px) and (orientation:landscape){
+      body{font-size:1.05rem}
+      .btn{padding:.6rem 1rem}
+    }
+  </style>
+
+  <!-- JSON-LD Software -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Poder de Manifestar",
+    "applicationCategory":"LifestyleApplication",
+    "operatingSystem":"Web",
+    "description":"Reto de Manifestación: 7 días (repetible 3 veces = 21). 2 días gratis + 5 PRO con activación.",
+    "offers":{"@type":"Offer","price":"5","priceCurrency":"USD","description":"Desbloqueo PRO de los 7 días completos"}
+  }
+  </script>
+</head>
+<body class="text-white font-sans min-h-screen pb-20">
+
+  <!-- HEADER -->
+  <header class="bg-[#0d1530]/70 backdrop-blur border-b border-white/10 p-4 text-center">
+    <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide" style="color:var(--gold)">PODER DE MANIFESTAR</h1>
+    <p id="titulo-dia" class="text-sm md:text-base text-white/80">Día 1 · Claridad de intención</p>
+  </header>
+
+  <!-- PROGRESO -->
+  <div class="progress-outer">
+    <div id="progressBar" class="progress-inner transition-all"></div>
+  </div>
+
+  <!-- DBG -->
+  <!-- <button id="debugBtn" onclick="debugReset()" class="fixed top-2 right-2 z-50 bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded text-xs opacity-80">DBG</button> -->
+
+  <!-- POPUP -->
+  <div id="popup" class="hidden fixed inset-0 z-50 overlay p-4 flex items-center justify-center">
+    <div class="popup-card rounded-2xl p-6 max-w-xl w-full text-left">
+      <h3 id="popupTitle" class="text-xl md:text-2xl font-extrabold mb-2" style="color:var(--gold)">Mensaje</h3>
+      <p id="popupText" class="text-base md:text-lg text-white/90 mb-4"></p>
+      <div id="popupAffirm" class="text-emerald-300/90 text-sm mb-4 hidden"></div>
+      <div id="popupButtons" class="flex flex-wrap gap-2 justify-end"></div>
+    </div>
+  </div>
+
+  <!-- POPUP CÓDIGO -->
+  <div id="codePopup" class="hidden fixed inset-0 z-50 overlay p-4 flex items-center justify-center">
+    <div class="popup-card rounded-2xl p-6 max-w-md w-full text-center">
+      <h3 class="text-2xl font-extrabold mb-2" style="color:var(--gold)">Desbloquear PRO</h3>
+      <p class="text-sm text-white/80 mb-3">Ingresa tu código de activación único.</p>
+      <input id="codeInput" class="bg-white/10 p-3 rounded w-full mb-2 text-lg text-center placeholder-white/50" placeholder="Ej. PMPRO-2025" aria-label="Código de activación">
+      <div id="codeError" class="text-rose-400 text-sm mb-3 hidden">Código inválido. Intenta nuevamente.</div>
+      <div class="flex gap-2 justify-center">
+        <button onclick="validarCodigo()" class="bg-emerald-500 hover:bg-emerald-600 px-5 py-2 rounded-lg text-lg font-bold">Validar</button>
+        <button onclick="cerrarCodePopup()" class="bg-white/10 hover:bg-white/20 px-5 py-2 rounded-lg text-lg">Cancelar</button>
+      </div>
+      <p class="text-xs text-white/60 mt-3">* Tu acceso PRO queda guardado en este dispositivo (offline).</p>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <main id="contenedor" class="max-w-2xl mx-auto p-4 space-y-6 text-center">
+
+    <!-- ======= DÍA 1 (1..6) — FREE ======= -->
+    <section id="b1" class="fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 1 · Claridad: define tu intención ✨</h2>
+      <p class="text-white/80 text-sm mb-1"><strong>Objetivo:</strong> elegir una meta específica, positiva y medible en una sola área.</p>
+      <p class="text-white/80 text-sm mb-4">La claridad reduce ruido mental y optimiza tu enfoque atencional (efecto “faro”). Hoy fijamos rumbo.</p>
+
+      <!-- Marco del día · Claridad -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Hoy definimos <b>una intención</b> con formato simple: <b>Qué + Cuánto + Cuándo + Para qué</b>. Ese “para qué” enciende tu motivación.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(1)">Comenzar</button>
+    </section>
+
+    <section id="b2" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Elige tu área</h3>
+      <p class="text-sm text-white/80 mb-3">Selecciona <b>solo una</b> para este ciclo de 7 días:</p>
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <button class="bg-white/10 rounded-lg py-3" onclick="pm_setArea('Amor')">💞 Amor</button>
+        <button class="bg-white/10 rounded-lg py-3" onclick="pm_setArea('Salud')">💚 Salud</button>
+        <button class="bg-white/10 rounded-lg py-3" onclick="pm_setArea('Dinero')">💰 Dinero</button>
+        <button class="bg-white/10 rounded-lg py-3" onclick="pm_setArea('Propósito')">🌟 Propósito</button>
+      </div>
+
+      <!-- Teoría breve: foco -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Teoría breve · Foco útil</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li><b>Una sola área</b> = menos conflicto de prioridades.</li>
+          <li><b>Acotada</b>: que puedas visualizar acciones concretas.</li>
+          <li><b>Relevante</b>: que te importe hoy, no “algún día”.</li>
+        </ul>
+      </div>
+      <!-- Errores comunes -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Errores comunes</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li>Elegir 3 metas a la vez.</li>
+          <li>Redacción vaga (“mejorar mi vida”).</li>
+          <li>Objetivo que no depende de ti (100% externo).</li>
+        </ul>
+      </div>
+      <!-- Alegrías ancla: 3 frases cortas que te suben la vibración -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Tus 3 alegrías ancla (frases cortas)</div>
+        <p class="text-xs text-white/70 mb-2">
+          Ingresa <b>3 cosas que te causen mucha felicidad</b>. Volverás aquí cuando tengas un mal día o para cambiar tu vibración.
+          Este paso potencia todos los ejercicios del método.
+        </p>
+        <div class="grid gap-2">
+          <input id="d1_h1" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Poder alimentarme"'>
+          <input id="d1_h2" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "El nacimiento de mi hijo"'>
+          <input id="d1_h3" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Caminar al atardecer"'>
+        </div>
+        <div class="flex items-center gap-2 mt-3">
+          <button class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-lg text-sm font-bold"
+                  onclick="pm_saveFeliz()">Guardar alegrías</button>
+          <span class="text-xs text-white/60">Luego podrás verlas con el botón <b>?</b> (ayuda) en la barra inferior.</span>
+        </div>
+      </div>
+
+
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(2)">Siguiente</button>
+    </section>
+
+    <section id="b3" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Intención en presente</h3>
+      <p class="text-sm text-white/80 mb-2">Escribe en <b>presente + positivo + específico</b>. Comienza con “Tengo / Soy / Vivo…”.</p>
+      <input id="d1_int" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="Ej. ‘Gano $1,000 extra/mes con clientes ideales antes del 30 de junio.’" aria-label="Tu intención en presente">
+
+      <!-- Plantilla de intención y ejemplos -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Plantilla</div>
+        <p class="text-xs text-white/70"><b>“Yo [verbo en presente] [resultado medible] antes de [fecha] para [propósito].”</b></p>
+        <div class="grid grid-cols-1 gap-1 mt-2 text-xs text-white/70">
+          <div class="bg-white/5 rounded p-2">💚 Salud: “Yo <b>camino 20 min diarios</b> durante 21 días para <b>aumentar mi energía</b>”.</div>
+          <div class="bg-white/5 rounded p-2">💰 Dinero: “Yo <b>facturo $1,000 extra/mes</b> antes del 30/06 para <b>ahorrar el fondo X</b>”.</div>
+          <div class="bg-white/5 rounded p-2">💞 Amor: “Yo <b>me abro a vínculos sanos</b> y <b>tengo 2 citas conscientes/mes</b> para <b>crear una relación recíproca</b>”.</div>
+        </div>
+      </div>
+      <!-- Micro-ejercicio: 5 filtros -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Chequeo 5F</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li><b>F</b>oco (una sola cosa)</li>
+          <li><b>F</b>echa (límite claro)</li>
+          <li><b>F</b>actor medible (número)</li>
+          <li><b>F</b>actor emoción (te motiva)</li>
+          <li><b>F</b>actible (primer paso hoy)</li>
+        </ul>
+      </div>
+      <!-- Extra: Escala de claridad -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Escala de claridad (0–10)</div>
+        <input type="range" min="0" max="10" value="6" class="w-full">
+        <p class="text-xs text-white/60 mt-1">Si &lt;7, reduce alcance o añade una métrica.</p>
+      </div>
+
+      <div class="text-left text-xs text-white/60 my-3">Evita “no/ dejar de…”. Tu cerebro prioriza imágenes afirmativas (sesgo de enmarcado).</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveInt()">Guardar</button>
+    </section>
+
+    <section id="b4" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Visualización con respiración (90s)</h3>
+      <p class="text-sm text-white/80 mb-2">Respira 4-4-4. Proyecta tu intención en una “pantalla blanca” y <b>añade detalles sensoriales</b> (luz, sonidos, texturas).</p>
+      <div id="v1_wrap" class="mx-auto mb-2">
+        <svg class="balloon" viewBox="0 0 120 140" role="img" aria-label="Globo respiración 4-4-4">
+          <defs>
+            <radialGradient id="g1" cx="50%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="#fff3c4" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.96"/>
+            </radialGradient>
+          </defs>
+          <g class="balloon__shape">
+            <ellipse cx="60" cy="60" rx="34" ry="42" fill="url(#g1)"></ellipse>
+            <path d="M54 101 L66 101 L60 116 Z" fill="#d97706"></path>
+          </g>
+        </svg>
+        <div id="v1_phase" class="text-sm text-white/80">Prepárate…</div>
+      </div>
+      <div class="text-3xl font-extrabold mb-3" id="v1_timer">01:30</div>
+
+      <!-- Visual con 3 sentidos -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Visual 3-S</div>
+        <p class="text-xs text-white/70">Mientras respiras 4-4-4: añade <b>Visión</b> (colores), <b>Audición</b> (palabras/sonidos) y <b>Kinestesia</b> (peso del cuerpo, temperatura).</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Neuroplasticidad: imágenes + emoción generan “huellas” que facilitan nuevas conductas.</div>
+      <button id="v1_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
+    </section>
+
+    <section id="b5" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">4) Ancla de repetición</h3>
+      <p class="text-sm text-white/80 mb-2">Marca 3 momentos del día para releer en voz alta tu intención (con emoción genuina).</p>
+      <div class="grid grid-cols-3 gap-2 mb-3">
+        <label class="bg-white/10 rounded-lg py-2"><input type="checkbox" class="mr-1" aria-label="Relectura mañana"> Mañana</label>
+        <label class="bg-white/10 rounded-lg py-2"><input type="checkbox" class="mr-1" aria-label="Relectura tarde"> Tarde</label>
+        <label class="bg-white/10 rounded-lg py-2"><input type="checkbox" class="mr-1" aria-label="Relectura noche"> Noche</label>
+      </div>
+
+      <!-- Mini FAQ -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">FAQ mini</div>
+        <p class="text-xs text-white/70"><b>¿Y si dudo?</b> Reescribe en más pequeño y accionable. La claridad crece con uso.</p>
+      </div>
+      <!-- Extra: plan de releídas -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Plan 3 releídas</div>
+        <input class="w-full bg-white/10 rounded p-2 text-xs mb-2" placeholder="Frase breve para releer (versión compacta)">
+        <input class="w-full bg-white/10 rounded p-2 text-xs" placeholder="¿Dónde lo verás? (fondo de pantalla, post-it...)">
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Repetición espaciada + emoción = consolidación de memoria (efecto espaciado).</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="avanzar(5)">Cerrar Día 1</button>
+    </section>
+
+    <section id="b6" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Día 1 completado! 🏅</h3>
+      <p class="mb-3">Insignia: <span class="text-[var(--gold)]">Claridad</span> desbloqueada.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">Anota 1–2 coincidencias, ideas o personas que aparecieron hoy.</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Señales/ideas…"></textarea>
+      </div>
+
+      <div class="flex gap-2 justify-center">
+        <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Claridad sellada','🌟 Tu mente ya tiene coordenadas. Desde hoy cada paso suma.','“Hoy oriento mi energía con precisión.”')">OK</button>
+      </div>
+    </section>
+
+    <!-- ======= DÍA 2 (7..11) — FREE ======= -->
+    <section id="b7" class="hidden fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 2 · Vibración: gratitud adelantada 💫</h2>
+      <p class="text-white/80 text-sm mb-1"><strong>Objetivo:</strong> elevar emoción (gratitud/alegría) antes del resultado para predisponer acción y percepción.</p>
+      <p class="text-white/80 text-sm mb-4">La atención filtrará más “evidencias” (sesgo de confirmación) cuando sostienes gratitud.</p>
+
+      <!-- Marco del día · Vibración -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Entrenamos <b>gratitud adelantada</b>: sentir hoy lo que quieres vivir mañana, para sesgar tu atención y conducta hacia ello.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(7)">Comenzar Día 2</button>
+    </section>
+
+    <section id="b8" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Lista de gratitud (10)</h3>
+      <p class="text-sm text-white/80 mb-2">Incluye 5 cosas presentes y 5 <b>en camino</b> relacionadas con tu meta.</p>
+      <textarea id="d2_grat" rows="5" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="- Gracias por mi salud actual…  - Gracias por el empleo alineado que ya se acerca… (1 por línea)"></textarea>
+
+      <!-- Estructura 5+5 -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Estructura 5+5</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li><b>5 presentes</b>: lo que ya tienes.</li>
+          <li><b>5 en camino</b>: lo que empiezas a notar que se acerca.</li>
+        </ul>
+      </div>
+      <!-- Errores comunes -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Evita</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li>Listas genéricas. Vincula a tu intención del Día 1.</li>
+          <li>Hacerlo de prisa sin sensaciones corporales.</li>
+        </ul>
+      </div>
+      <!-- Extra: Reencuadre -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Reencuadre de una queja</div>
+        <input class="w-full bg-white/10 rounded p-2 text-xs mb-2" placeholder="Queja: …">
+        <input class="w-full bg-white/10 rounded p-2 text-xs" placeholder="Agradecimiento posible: …">
+      </div>
+
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="pm_saveGrat()">Guardar</button>
+    </section>
+
+    <section id="b9" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Visualización emocionada (60s)</h3>
+      <p class="text-sm text-white/80 mb-2">Cierra ojos, ve la escena lograda y siente “gracias” en el pecho; sonríe levemente.</p>
+      <div id="v2_wrap" class="mx-auto mb-2">
+        <svg class="balloon" viewBox="0 0 120 140" role="img" aria-label="Globo respiración 4-4-4">
+          <defs>
+            <radialGradient id="g2" cx="50%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="#ffe4e6" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#fb7185" stop-opacity="0.96"/>
+            </radialGradient>
+          </defs>
+        <g class="balloon__shape">
+          <ellipse cx="60" cy="60" rx="34" ry="42" fill="url(#g2)"></ellipse>
+          <path d="M54 101 L66 101 L60 116 Z" fill="#be123c"></path>
+        </g>
+        </svg>
+        <div id="v2_phase" class="text-sm text-white/80">Prepárate…</div>
+      </div>
+      <div id="v2_timer" class="text-3xl font-extrabold mb-3">01:00</div>
+
+      <!-- Técnica de sonrisa suave -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Tip somático</div>
+        <p class="text-xs text-white/70">Sonrisa leve + hombros relajados + mano al pecho. Cada “gracias” dura una exhalación.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Psicología: la gratitud aumenta motivación y persistencia (autoeficacia percibida).</div>
+      <button id="v2_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
+    </section>
+
+    <section id="b10" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Recordatorios de gratitud</h3>
+      <p class="text-sm text-white/80 mb-2">Activa 5 “micro-gracias”: al despertar, al comer, tras un mensaje, al caminar, antes de dormir.</p>
+      <div class="grid grid-cols-5 gap-2 mb-3">
+        <label class="bg-white/10 rounded-lg py-2 text-sm text-white/70"><input type="checkbox" class="mr-1" aria-label="Recordatorio 1"> AM</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm text-white/70"><input type="checkbox" class="mr-1" aria-label="Recordatorio 2"> Comida</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm text-white/70"><input type="checkbox" class="mr-1" aria-label="Recordatorio 3"> Mensaje</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm text-white/70"><input type="checkbox" class="mr-1" aria-label="Recordatorio 4"> Paseo</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm text-white/70"><input type="checkbox" class="mr-1" aria-label="Recordatorio 5"> PM</label>
+      </div>
+
+      <!-- Frases faro -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Frases faro</div>
+        <p class="text-xs text-white/70">“Esto también cuenta.” · “Mi atención crea apertura.” · “Gracias por lo que avanza aunque no lo vea todo.”</p>
+      </div>
+
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(10)">Cerrar Día 2</button>
+    </section>
+
+    <section id="b11" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Día 2 completado! 🏅</h3>
+      <p class="mb-3">Insignia: <span class="text-[var(--gold)]">Vibración</span> desbloqueada.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">¿Qué evidencias notaste hoy? Regístralas.</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Evidencias…"></textarea>
+      </div>
+
+      <div class="flex gap-2 justify-center">
+        <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Vibración elevada','⚡ Tu biología emocional ya juega a tu favor. Observa señales hoy.','“Hoy sostengo gratitud y recibo señales.”')">OK</button>
+      </div>
+    </section>
+
+    <!-- ======= DÍA 3 (12..16) — PRO ======= -->
+    <section id="b12" class="hidden fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 3 · Creencias: reprograma tus límites 🔧</h2>
+      <p class="text-white/80 text-sm mb-3"><strong>Objetivo:</strong> detectar 3 creencias que te frenan y transformarlas en declaraciones funcionales.</p>
+
+      <!-- Marco del día · Creencias -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Detectamos <b>3 guiones mentales</b> y los reemplazamos por <b>afirmaciones operativas</b> con evidencia o hábito de respaldo.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(12)">Comenzar Día 3</button>
+    </section>
+
+    <section id="b13" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Detecta 3 creencias</h3>
+      <p class="text-sm text-white/80 mb-2">Completa: “No puedo porque… / Siempre me pasa que… / A mí nunca…”.</p>
+      <textarea id="d3_lim" rows="4" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="- No puedo pedir aumento porque…  - Siempre elijo parejas que…  - A mí nunca me eligen para…"></textarea>
+
+      <!-- Mapa de disparadores -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Mapa de disparadores</div>
+        <p class="text-xs text-white/70">Anota cuándo aparecen: ¿madrugada?, ¿antes de enviar propuestas?, ¿tras un rechazo?</p>
+      </div>
+      <!-- Contra-ejemplos -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Contra-ejemplos rápidos</div>
+        <p class="text-xs text-white/70">Escribe una situación donde <b>sí pudiste</b> o <b>no ocurrió</b> lo que dicta la creencia. Rompe la “ley” interna.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Psicología cognitiva: las creencias guían percepción y conducta (profecía autocumplida).</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveLim()">Guardar</button>
+    </section>
+
+    <section id="b14" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Sustitución poderosa</h3>
+      <p class="text-sm text-white/80 mb-2">Reescribe cada una en positivo, presente y accionable. Añade un “porque…” que la haga creíble.</p>
+      <textarea id="d3_pos" rows="4" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="- Soy elegido por clientes que valoran mi trabajo porque comunico con claridad y evidencias."></textarea>
+
+      <!-- Fórmula + ejemplos por área -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Fórmula con soporte</div>
+        <p class="text-xs text-white/70"><b>Yo + capacidad en presente + porque + evidencia/hábito</b>.</p>
+        <div class="grid grid-cols-1 gap-1 mt-2 text-xs text-white/70">
+          <div class="bg-white/5 rounded p-2">💚 Salud: “Yo <b>cuido mi energía</b> porque <b>priorizo 7h de sueño y camino 20 min</b>”.</div>
+          <div class="bg-white/5 rounded p-2">💰 Dinero: “Yo <b>cierro ventas con calma</b> porque <b>hago seguimiento diario y muestro casos</b>”.</div>
+          <div class="bg-white/5 rounded p-2">💞 Amor: “Yo <b>elijo vínculos recíprocos</b> porque <b>me comunico claro y pongo límites</b>”.</div>
+        </div>
+      </div>
+      <!-- Checklist de credibilidad -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Checklist de credibilidad</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li>¿Tiene un <b>porque</b> real?</li>
+          <li>¿Puedo actuar hoy coherente con esta afirmación?</li>
+          <li>¿Me sube 1 punto la emoción al leerla?</li>
+        </ul>
+      </div>
+
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(14)">Siguiente</button>
+    </section>
+
+    <section id="b15" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Repetición frente al espejo</h3>
+      <p class="text-sm text-white/80 mb-2">Repite 5 veces mirando tus ojos. <b>Incluye gesto</b> (mano al corazón) para anclar en el cuerpo.</p>
+      <div class="grid grid-cols-5 gap-2 mb-3">
+        <label class="bg-white/10 rounded-lg py-2 text-sm"><input type="checkbox" class="mr-1">1</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm"><input type="checkbox" class="mr-1">2</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm"><input type="checkbox" class="mr-1">3</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm"><input type="checkbox" class="mr-1">4</label>
+        <label class="bg-white/10 rounded-lg py-2 text-sm"><input type="checkbox" class="mr-1">5</label>
+      </div>
+
+      <!-- Gesto ancla + mantra -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Ancla espejo</div>
+        <p class="text-xs text-white/70">Mano al corazón + mirada amable. Mantra: “Actualizo mis creencias con hechos”.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Condicionamiento: palabra + gesto refuerza el circuito (emoción + repetición).</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="avanzar(15)">Cerrar Día 3</button>
+    </section>
+
+    <section id="b16" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Día 3 completado! 🏅</h3>
+      <p class="mb-3">Insignia: <span class="text-[var(--gold)]">Creencias</span> desbloqueada.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">¿Qué pensamientos nuevos aparecieron? ¿Qué micro-evidencias viste?</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Señales/cambios…"></textarea>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Programas nuevos','🔓 Acabas de instalar creencias que te permiten actuar distinto.','“Soy digno y capaz de lo que deseo.”')">OK</button>
+    </section>
+
+    <!-- ======= DÍA 4 (17..21) — PRO ======= -->
+    <section id="b17" class="hidden fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 4 · Emoción: sentir antes de ver ❤️</h2>
+      <p class="text-white/80 text-sm mb-3"><strong>Objetivo:</strong> sostener por minutos la emoción de la meta lograda para crear coherencia mente-cuerpo.</p>
+
+      <!-- Marco del día · Emoción -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Creamos <b>coherencia</b>: cuerpo tranquilo + emoción elevada + escena única repetida = señal clara.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(17)">Comenzar Día 4</button>
+    </section>
+
+    <section id="b18" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Respira y siente (60s)</h3>
+      <div id="v4_wrap" class="mx-auto mb-2">
+        <svg class="balloon" viewBox="0 0 120 140" role="img" aria-label="Globo respiración 4-4-4">
+          <defs>
+            <radialGradient id="g4" cx="50%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="#c7d2fe"/><stop offset="100%" stop-color="#6366f1"/>
+            </radialGradient>
+          </defs>
+          <g class="balloon__shape">
+            <ellipse cx="60" cy="60" rx="34" ry="42" fill="url(#g4)"></ellipse>
+            <path d="M54 101 L66 101 L60 116 Z" fill="#4338ca"></path>
+          </g>
+        </svg>
+        <div id="v4_phase" class="text-sm text-white/80">Prepárate…</div>
+      </div>
+      <div id="v4_timer" class="text-3xl font-extrabold mb-3">01:00</div>
+
+      <!-- Respiración + foco visual -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Respira con foco</div>
+        <p class="text-xs text-white/70">En cada inhalación nombra tu ancla (ej. “confianza”), en la exhalación imagina soltar tensión de mandíbula y hombros.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Coherencia: la respiración regula el sistema nervioso y facilita emociones elevadas estables.</div>
+      <button id="v4_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
+    </section>
+
+    <section id="b19" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Escena mental (4 min)</h3>
+      <p class="text-sm text-white/80 mb-2">Recrea <b>una escena corta</b> que implicaría que ya lo lograste (ej: firmar contrato, abrazo de celebración).</p>
+      <div id="v4b_timer" class="text-3xl font-extrabold mb-3">04:00</div>
+
+      <!-- Escena única + cierre -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Escena única</div>
+        <p class="text-xs text-white/70">Repite <b>la misma escena</b> 4 min: lugar, persona, palabras clave, un gesto final de logro.</p>
+      </div>
+      <!-- Errores comunes -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Evita</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li>Cambiar de escena cada vez.</li>
+          <li>Fingir emoción sin respiración lenta.</li>
+        </ul>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Tip: mantén la misma escena; la repetición fija el circuito emocional.</div>
+      <button id="v4b_btn" class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Hecho</button>
+    </section>
+
+    <section id="b20" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Ancla de palabra</h3>
+      <p class="text-sm text-white/80 mb-2">Elige una palabra que condense tu estado (ej.: “serenidad”, “abundancia”, “seguridad”). Úsala en el día.</p>
+      <input id="d4_word" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="Tu ancla de emoción (ej. ‘confianza’)">
+
+      <!-- Uso del ancla en el día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Usa tu ancla</div>
+        <p class="text-xs text-white/70">Di tu palabra 3 veces cuando notes impulso de prisa o duda. Respira 4-4-4 una ronda.</p>
+      </div>
+
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(20)">Cerrar Día 4</button>
+    </section>
+
+    <section id="b21" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Día 4 completado! 🏅</h3>
+      <p class="mb-3">Insignia: <span class="text-[var(--gold)]">Emoción</span> desbloqueada.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">¿Qué cambios notaste en tu cuerpo o ánimo durante el día?</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Observaciones corporales…"></textarea>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Coherencia corazón-mente','💗 Estás entrenando sentir antes de ver. Esa es la llave del cambio sostenido.','“Hoy vibro en la emoción de mi meta cumplida.”')">OK</button>
+    </section>
+
+    <!-- ======= DÍA 5 (22..24) — PRO ======= -->
+    <section id="b22" class="hidden fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 5 · Gratitud adelantada 🙏</h2>
+      <p class="text-white/80 text-sm mb-3"><strong>Objetivo:</strong> agradecer como si ya hubiese ocurrido para reforzar expectativa positiva y conducta alineada.</p>
+
+      <!-- Marco del día · Anticipación agradecida -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Agradecer por lo “en camino” reduce amenaza y habilita decisiones consistentes con tu meta.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(22)">Comenzar Día 5</button>
+    </section>
+
+    <section id="b23" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) 3 agradecimientos en presente</h3>
+      <textarea id="d5_gra" rows="4" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="- Gracias por el aumento que recibí y la tranquilidad financiera que siento…"></textarea>
+
+      <!-- Guía 3x3 -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Guía 3×3</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li>3 gracias por avances reales de esta semana.</li>
+          <li>3 gracias por recursos internos (paciencia, constancia, creatividad).</li>
+          <li>3 gracias por señales (personas, ideas, ofertas).</li>
+        </ul>
+      </div>
+      <!-- Frases modelo -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Modelos</div>
+        <p class="text-xs text-white/70">“Gracias por la claridad que sentí hoy al…”. “Gracias por el mensaje de X que abre Y…”.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Neurociencia: anticipar con gratitud reduce ansiedad y mejora toma de decisiones.</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveGra()">Guardar</button>
+    </section>
+
+    <section id="b24" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) 60s de gratitud corporal</h3>
+      <div id="v5_timer" class="text-3xl font-extrabold mb-3">01:00</div>
+
+      <!-- Sello corporal 60s -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Sello corporal</div>
+        <p class="text-xs text-white/70">Exhala el doble de tiempo que inhalas. En cada exhalación di “gracias” en susurro y siente calor en el pecho.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Mano al pecho + sonrisa leve. Siente calor y expansión. Repite “gracias” en susurro.</div>
+      <button id="v5_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
+    </section>
+
+    <section id="b25" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Día 5 completado! 🏅</h3>
+      <p class="mb-3">Insignia: <span class="text-[var(--gold)]">Gratitud</span> desbloqueada.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">Registra coincidencias, oportunidades o ideas agradecibles de hoy.</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Señales…"></textarea>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Recepción abierta','🎁 La gratitud abre puertas que la prisa no ve. Mantén esa apertura hoy.','“Hoy agradezco como si ya lo tuviera.”')">OK</button>
+    </section>
+
+    <!-- ======= DÍA 6 (26..28) — PRO ======= -->
+    <section id="b26" class="hidden fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 6 · Acción inspirada 🚀</h2>
+      <p class="text-white/80 text-sm mb-3"><strong>Objetivo:</strong> ejecutar una micro-acción de ≤5 min que te acerque de forma tangible.</p>
+
+      <!-- Marco del día · Momentum -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Movimiento > perfección. <b>5 minutos</b> aplicados con foco cambian tu identidad en la práctica.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(26)">Comenzar Día 6</button>
+    </section>
+
+    <section id="b27" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Define 3 micro-acciones</h3>
+      <input id="d6_a1" class="w-full bg-white/10 rounded-lg p-3 mb-2 placeholder-white/50" placeholder="Ej. Enviar 1 mensaje a un potencial cliente">
+      <input id="d6_a2" class="w-full bg-white/10 rounded-lg p-3 mb-2 placeholder-white/50" placeholder="Ej. Actualizar 2 líneas de mi CV/portafolio">
+      <input id="d6_a3" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="Ej. Reservar cita/recordatorio para mover un trámite">
+
+      <!-- Regla 5-2-1 -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Regla 5-2-1</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li><b>5</b> min de acción.</li>
+          <li><b>2</b> distracciones cerradas (notis/sitio).</li>
+          <li><b>1</b> evidencia escrita al terminar.</li>
+        </ul>
+      </div>
+      <!-- Quita fricción -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Quitar fricción</div>
+        <p class="text-xs text-white/70">Define <b>lugar</b>, <b>hora</b> y <b>objeto</b> que usarás. Deja lo necesario listo (teléfono en modo avión).</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Principio de inercia conductual: acción pequeña ↓ resistencia y ↑ probabilidad de continuar.</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveActs()">Guardar</button>
+    </section>
+
+    <section id="b28" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Ejecuta la 1ª (5 min)</h3>
+      <div id="v6_timer" class="text-3xl font-extrabold mb-3">05:00</div>
+
+      <!-- Registro rápido + siguiente paso -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Registro</div>
+        <input class="w-full bg-white/10 rounded p-2 text-sm mb-2" placeholder="¿Qué resultado concreto obtuve en 5 min?">
+        <input class="w-full bg-white/10 rounded p-2 text-sm" placeholder="¿Cuál es el siguiente micro-paso (mañana)?">
+      </div>
+      <!-- Recompensa mínima -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Recompensa mínima</div>
+        <p class="text-xs text-white/70">Al finalizar, toma 3 respiraciones profundas y di: “Buen trabajo, sigo mañana”. Refuerza el circuito.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Cierra distracciones. Al sonar el timer, registra 1 evidencia: ¿qué cambió por haber actuado?</div>
+      <button id="v6_btn" class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Hecho</button>
+    </section>
+
+    <section id="b29" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Día 6 completado! 🏅</h3>
+      <p class="mb-3">Insignia: <span class="text-[var(--gold)]">Acción</span> desbloqueada.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">¿Qué oportunidad surgió por ese pequeño movimiento?</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Oportunidades/evidencias…"></textarea>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Movimiento creado','🚀 Tu cuerpo ya confirmó tu intención. Repite una micro-acción mañana.','“Hoy doy un paso real hacia mi manifestación.”')">OK</button>
+    </section>
+
+    <!-- ======= DÍA 7 (30..33) — PRO ======= -->
+    <section id="b30" class="hidden fade-in">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 7 · Integración: sello y entrega 🕊️</h2>
+      <p class="text-white/80 text-sm mb-3"><strong>Objetivo:</strong> integrar aprendizajes, agradecer el proceso y soltar el control para permitir.</p>
+
+      <!-- Marco del día · Cierre -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-[var(--gold)] font-bold mb-1">Marco del día</div>
+        <p class="text-xs text-white/70">Hoy consolidamos aprendizajes, agradecemos el proceso y soltamos control para permitir resultados.</p>
+      </div>
+
+      <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(30)">Comenzar Día 7</button>
+    </section>
+
+    <section id="b31" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Carta de gratitud al universo</h3>
+      <textarea id="d7_carta" rows="4" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="Querido universo: gracias por… (menciona 3 avances reales de esta semana y 2 señales)"></textarea>
+
+      <!-- 3 avances + 2 señales + 1 decisión -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">3-2-1 de cierre</div>
+        <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
+          <li><b>3 avances</b> de la semana (hechos concretos).</li>
+          <li><b>2 señales</b> que aparecieron.</li>
+          <li><b>1 decisión</b> para el próximo ciclo.</li>
+        </ul>
+      </div>
+      <!-- Gratitud al proceso -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Gratitud al proceso</div>
+        <p class="text-xs text-white/70">“Gracias por mi constancia y por cómo me trato mientras aprendo.”</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Integración: poner en palabras consolida aprendizaje y significado (codificación profunda).</div>
+      <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveCarta()">Guardar</button>
+    </section>
+
+    <section id="b32" class="hidden fade-in card rounded-2xl p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Ritual de entrega (90s)</h3>
+      <div id="v7_timer" class="text-3xl font-extrabold mb-3">01:30</div>
+
+      <!-- Ritual breve de entrega -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+        <div class="text-sm font-bold mb-1">Ritual de entrega</div>
+        <p class="text-xs text-white/70">Inhala contando 4; exhala contando 6. Repite: “Yo hago mi parte a diario; permito que la vida haga la suya”.</p>
+      </div>
+      <!-- Preparar ciclo 2 -->
+      <div class="bg-white/5 rounded-lg p-3 text-left">
+        <div class="text-sm font-bold mb-1">Preparar el siguiente ciclo</div>
+        <p class="text-xs text-white/70">Elige: <b>repetir la misma intención</b> (profundizar) o <b>afinar la métrica</b> (más específica). Mantén el ancla.</p>
+      </div>
+
+      <div class="text-xs text-white/70 mb-3 mt-3">Respira 4-4-4 y declara: “<b>Esto ya está en camino</b>. Yo cumplo con mi parte y confío en el tiempo perfecto”.</div>
+      <button id="v7_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Finalizar</button>
+    </section>
+
+    <section id="b33" class="hidden fade-in">
+      <h3 class="text-2xl md:text-3xl font-bold mb-2 text-emerald-400">¡Ciclo de 7 días completado! 🏆</h3>
+      <p class="mb-3">Repite 3 ciclos (21 días) y canjea tu <span class="text-[var(--gold)]">Insignia Maestro de Manifestación</span>. Observa las evidencias que ya aparecieron.</p>
+
+      <!-- Señales del día -->
+      <div class="bg-white/5 rounded-lg p-3 text-left mx-auto max-w-md mb-3">
+        <div class="text-sm font-bold mb-1">Señales del día</div>
+        <p class="text-xs text-white/70 mb-2">¿Qué sincronicidades o resultados notables surgieron al cerrar el ciclo?</p>
+        <textarea rows="2" class="w-full bg-white/10 rounded p-2 text-sm" placeholder="Sincronicidades/resultados…"></textarea>
+      </div>
+
+      <div class="flex gap-2 justify-center">
+        <button class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-xl" onclick="popupEmocion('Cierre con sello','✨ Tu campo interno cambió; el externo empieza a moverse. Mantén la práctica simple y constante.','“Confío en los tiempos perfectos.”')">OK</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER BOLAS + AYUDA -->
+  <div class="fixed bottom-0 left-0 right-0 bg-[#0d1530]/85 backdrop-blur border-t border-white/10 py-2" id="footerBolas">
+    
+    <div class="max-w-2xl mx-auto flex items-center justify-center gap-3 relative">
+      
+      <div class="dia-circulo bg-[var(--gold)] text-gray-900"><span>1</span></div>
+      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>2</span><small class="chip-pro"></small></div>
+      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>3</span><small class="chip-pro">PRO</small></div>
+      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>4</span><small class="chip-pro">PRO</small></div>
+      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>5</span><small class="chip-pro">PRO</small></div>
+      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>6</span><small class="chip-pro">PRO</small></div>
+      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>7</span><small class="chip-pro">PRO</small></div>
+      <!-- Ayuda contextual -->
+      <button id="helpBtn" aria-label="Ayuda del día" class="w-10 h-10 rounded-full bg-[var(--gold)] text-gray-900 font-extrabold absolute right-2 flex items-center justify-center"
+        onclick="mostrarAyudaDia()">?</button>
+    </div>
+  </div>
+
+  <script>
+    /* ====== Estado ====== */
+    let bloqueActual = 1;
+
+    /* Timers */
+    let v1_iv, v1_phase_iv, v2_iv, v2_phase_iv, v4_iv, v4_phase_iv, v4b_iv, v5_iv, v6_iv, v7_iv;
+
+    /* Inicio */
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem("pm_pro") === "true") desbloquearBolasPRO();
+      initFooterNav();
+      pintarDiasCompletados();
+      document.getElementById('b1').classList.remove('hidden');
+      actualizarProgreso(1);
+    });
+
+    /* ====== Navegación ====== */
+    function avanzar(b){
+      bloqueActual = b + 1;
+      document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+
+      const next = document.getElementById(`b${bloqueActual}`);
+      if(!next) return;
+
+      const isPRO = localStorage.getItem("pm_pro") === "true";
+      const day = dayFromBlock(bloqueActual);
+      if (day >= 3 && !isPRO){
+        ofertaPRO(true);
+        // Regresar al final del último día free
+        document.getElementById('b11').classList.remove('hidden');
+        actualizarProgreso(11);
+        return;
+      }
+
+      next.classList.remove('hidden');
+      actualizarProgreso(bloqueActual);
+
+      // Auto-inicios por bloque
+      if (bloqueActual === 4) startBreath('v1', 90);
+      if (bloqueActual === 9) startBreath('v2', 60);
+      if (bloqueActual === 18) startBreath('v4', 60);
+      if (bloqueActual === 19) startSimpleTimer('v4b', 4*60);
+      if (bloqueActual === 24) startSimpleTimer('v5', 60);
+      if (bloqueActual === 28) startSimpleTimer('v6', 5*60);
+      if (bloqueActual === 32) startSimpleTimer('v7', 90);
+    }
+
+    function dayFromBlock(b){
+      if (b <= 6) return 1;
+      if (b <= 11) return 2;
+      if (b <= 16) return 3;
+      if (b <= 21) return 4;
+      if (b <= 25) return 5;
+      if (b <= 29) return 6;
+      return 7;
+    }
+
+    function actualizarProgreso(b){
+      const day = dayFromBlock(b);
+      const starts = [0,1,7,12,17,22,26,30]; // índice día -> bloque inicial
+      const start = starts[day];
+      const localIndex = b - start + 1;
+      const pct = Math.max(0, Math.min(100, Math.round((localIndex/6)*100)));
+      document.getElementById('progressBar').style.width = pct + '%';
+
+      const tit = {
+        1: "Día 1 · Claridad de intención",
+        2: "Día 2 · Vibración",
+        3: "Día 3 · Creencias",
+        4: "Día 4 · Emoción",
+        5: "Día 5 · Gratitud adelantada",
+        6: "Día 6 · Acción inspirada",
+        7: "Día 7 · Integración y entrega"
+      };
+      document.getElementById('titulo-dia').textContent = tit[day] || `Día ${day}`;
+    }
+// Devuelve el número de bloque visible actual (a partir del id="bN")
+function getCurrentBlockFromDOM(){
+  const visible = Array.from(document.querySelectorAll('main section'))
+    .find(s => !s.classList.contains('hidden'));
+  if (!visible) return bloqueActual || 1;
+  const m = visible.id && visible.id.match(/^b(\d+)$/);
+  return m ? parseInt(m[1], 10) : (bloqueActual || 1);
+}
+
+    function initFooterNav(){
+      const circles = document.querySelectorAll('#footerBolas .dia-circulo');
+      circles.forEach((c, idx) => {
+        const day = idx + 1;
+        c.setAttribute('role','button'); c.setAttribute('tabindex','0'); c.classList.add('cursor-pointer');
+        c.title = `Ir al día ${day}`;
+        c.addEventListener('click', ()=>goToDay(day));
+        c.addEventListener('keypress', e => { if (e.key === 'Enter') goToDay(day); });
+      });
+    }
+    function goToDay(day){
+      const isPRO = localStorage.getItem("pm_pro") === "true";
+      if (day === 1) { showDayStart(1); return; }
+      if (day === 2) { showDayStart(2); return; }
+      if (!isPRO){ ofertaPRO(true); return; }
+      showDayStart(day);
+    }
+    function showDayStart(day){
+  document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+  const starts = [0,1,7,12,17,22,26,30];
+  const startBlock = starts[day];
+
+  // 🔧 Actualizamos bloqueActual para que el estado quede coherente
+  bloqueActual = startBlock;
+
+  const sec = document.getElementById(`b${startBlock}`);
+  if (sec){
+    sec.classList.remove('hidden');
+    actualizarProgreso(startBlock);
+  }
+  // Autoinicios si el primer bloque del día lo requiere
+  if (startBlock === 18) startBreath('v4', 60);
+  // (los otros días no requieren autoinicio aquí)
+}
+
+
+    function markDayDone(day){
+      localStorage.setItem(`pm_day${day}`, "true");
+      const circles = document.querySelectorAll('#footerBolas .dia-circulo');
+      const idx = day-1;
+      if (circles[idx]) {
+        circles[idx].classList.remove('bg-white/20','bg-[var(--gold)]');
+        circles[idx].classList.add('bg-emerald-500');
+        const chip = circles[idx].querySelector('.chip-pro'); if (chip) chip.remove();
+      }
+    }
+    function pintarDiasCompletados(){
+      for (let d=1; d<=7; d++){
+        if (localStorage.getItem(`pm_day${d}`) === "true"){
+          const circles = document.querySelectorAll('#footerBolas .dia-circulo');
+          if (circles[d-1]) {
+            circles[d-1].classList.remove('bg-white/20','bg-[var(--gold)]');
+            circles[d-1].classList.add('bg-emerald-500');
+            const chip = circles[d-1].querySelector('.chip-pro'); if (chip) chip.remove();
+          }
+        }
+      }
+    }
+
+    /* ====== POPUPS ====== */
+    function popupEmocion(title, text, afirmacion){
+      document.getElementById('popupTitle').textContent = title || 'Mensaje';
+      document.getElementById('popupText').innerHTML = text || '';
+      const aff = document.getElementById('popupAffirm');
+      if (afirmacion){ aff.textContent = afirmacion; aff.classList.remove('hidden'); } else { aff.classList.add('hidden'); }
+      const btns = document.getElementById('popupButtons');
+      btns.innerHTML = `<button onclick="cerrarPopup()" class="bg-[var(--gold)] text-gray-900 font-bold px-4 py-2 rounded">Estoy listo para el siguiente paso</button>`;
+      document.getElementById('popup').classList.remove('hidden');
+    }
+
+    function mostrarPopup(msg, accionExtra){
+      document.getElementById('popupTitle').textContent = 'Información';
+      document.getElementById('popupText').innerHTML = msg;
+      document.getElementById('popupAffirm').classList.add('hidden');
+      const btns = document.getElementById('popupButtons');
+      btns.innerHTML = `<button onclick="cerrarPopup()" class="bg-[var(--gold)] text-gray-900 font-bold px-4 py-2 rounded mr-2">OK</button>`;
+      if (accionExtra) btns.innerHTML += `<button onclick="${accionExtra}" class="bg-emerald-500 px-4 py-2 rounded">Reintentar</button>`;
+      document.getElementById('popup').classList.remove('hidden');
+    }
+    function cerrarPopup(){ document.getElementById('popup').classList.add('hidden'); }
+
+    /* ====== Oferta PRO ====== */
+    function ofertaPRO(desdeBloqueo=false){
+      document.getElementById('popupTitle').textContent = 'Poder de Manifestar · PRO';
+      document.getElementById('popupText').innerHTML = `
+        <div class="space-y-2">
+          <p class="text-white/90">Desbloquea los <strong>7 días</strong> y completa el ciclo de 21 días (repítelo 3 veces).</p>
+          <ul class="list-disc list-inside text-white/85 text-sm space-y-1">
+            <li>Días 3–7: creencias, emoción elevada, gratitud avanzada, acción inspirada y ritual de cierre.</li>
+            <li>Acceso de por vida · Funciona offline · Pago único.</li>
+          </ul>
+          ${desdeBloqueo ? `<p class="text-xs text-white/60">* Necesitas PRO para continuar con este día.</p>` : ``}
+        </div>`;
+      const aff = document.getElementById('popupAffirm');
+      aff.textContent = '“Elijo invertir en mi nueva realidad.”';
+      aff.classList.remove('hidden');
+      const btns = document.getElementById('popupButtons');
+      btns.innerHTML = `
+        <a href="https://tu-enlace-gumroad-o-hotmart.com" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-lg font-bold">Comprar PRO $5</a>
+        <button onclick="abrirCodePopup()" class="bg-[var(--gold)] text-gray-900 px-4 py-2 rounded-lg font-bold">Ya tengo un código</button>
+        <button onclick="cerrarPopup()" class="bg-white/10 px-4 py-2 rounded-lg">Más tarde</button>`;
+      document.getElementById('popup').classList.remove('hidden');
+    }
+    function abrirCodePopup(){ cerrarPopup(); document.getElementById("codeError").classList.add("hidden"); document.getElementById("codeInput").value=""; document.getElementById("codePopup").classList.remove("hidden"); }
+    function cerrarCodePopup(){ document.getElementById("codePopup").classList.add("hidden"); }
+    function validarCodigo(){
+      const code = (document.getElementById("codeInput").value || "").trim();
+      const VALID_CODES = ["PM-5701","PM-LANZAMIENTO","PM-REGALO"]; // agrega más si deseas
+      if (VALID_CODES.includes(code)) {
+        localStorage.setItem("pm_pro","true");
+        desbloquearBolasPRO(); cerrarCodePopup();
+        popupEmocion('Acceso PRO desbloqueado','✨ Bienvenido a la experiencia completa. Los próximos 5 días profundizan tu manifestación.','“Estoy listo para expandir mi realidad.”');
+      } else {
+        document.getElementById("codeError").classList.remove("hidden");
+      }
+    }
+    function desbloquearBolasPRO(){
+      const footer = document.getElementById("footerBolas");
+      footer.querySelectorAll(".dia-circulo").forEach((el,idx)=>{
+        if (idx<=1) return;
+        const chip = el.querySelector('.chip-pro'); if (chip) chip.remove();
+      });
+    }
+
+    // ====== Guardar y cargar alegrías ancla (felicidad) ======
+function pm_saveFeliz(){
+  const a = [ 'd1_h1', 'd1_h2', 'd1_h3' ]
+    .map(id => (document.getElementById(id)?.value || '').trim())
+    .filter(Boolean)
+    .map(s => s.length > 60 ? s.slice(0,60) : s);
+
+  if (a.length < 3){
+    mostrarPopup("Por favor ingresa tus <b>3 alegrías ancla</b> (frases cortas).");
+    return;
+  }
+  localStorage.setItem('pm_feliz', JSON.stringify(a));
+  popupEmocion('Alegrías guardadas', '✨ Listo. Cuando necesites subir tu vibración, toca el botón de <b>ayuda (?)</b> para verlas al instante.', '“Yo elijo recordar lo que me hace bien.”');
+}
+
+// Precarga en campos si ya existen
+document.addEventListener('DOMContentLoaded', () => {
+  try{
+    const a = JSON.parse(localStorage.getItem('pm_feliz') || '[]');
+    if (Array.isArray(a) && a.length){
+      ['d1_h1','d1_h2','d1_h3'].forEach((id, i) => {
+        if (document.getElementById(id) && a[i]) document.getElementById(id).value = a[i];
+      });
+    }
+  }catch(e){}
+});
+
+// ====== Mejora del botón de ayuda: muestra alegrías si existen ======
+const _mostrarAyudaDiaOriginal = mostrarAyudaDia; // por si quieres conservar lógica previa
+
+function mostrarAyudaDia(){
+  // Determinar el día actual en base al bloque realmente visible
+  const currentBlock = getCurrentBlockFromDOM();
+  const d = dayFromBlock(currentBlock);
+
+  const ayudas = {
+    1: "Día 1 · Claridad: Define UNA intención en presente. Visualiza 90s con 4-4-4 y relee 3 veces hoy.",
+    2: "Día 2 · Vibración: Escribe 10 gracias, visualiza 60s en gratitud y activa 5 recordatorios conscientes.",
+    3: "Día 3 · Creencias: Lista 3 límites y cámbialos por afirmaciones en presente. Repite 5 veces (espejo).",
+    4: "Día 4 · Emoción: 60s de respiración + 4 min de escena mental. Elige un ancla emocional (palabra).",
+    5: "Día 5 · Gratitud: 3 agradecimientos como si ya pasó + 60s de gratitud corporal (mano en pecho).",
+    6: "Día 6 · Acción: Define 3 micro-acciones (≤5 min) y ejecuta la 1ª con timer. Congruencia = poder.",
+    7: "Día 7 · Integración: Carta de gratitud y ritual de entrega 90s. Declara: “Está en camino, confío”."
+  };
+
+  // Bloque de alegrías ancla
+  let felizHTML = '';
+  try{
+    const a = JSON.parse(localStorage.getItem('pm_feliz') || '[]');
+    if (Array.isArray(a) && a.length >= 1){
+      const items = a.slice(0,3).map(x => `<li>• ${escapeHtml(x)}</li>`).join('');
+      felizHTML = `
+        <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+          <div class="text-sm font-bold mb-1" style="color:var(--gold)">Tus 3 alegrías ancla</div>
+          <ul class="text-sm text-white/80 space-y-1">${items}</ul>
+          <p class="text-xs text-white/60 mt-2">Ve a Día 1 para editarlas cuando quieras.</p>
+        </div>`;
+    } else {
+      felizHTML = `
+        <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+          <div class="text-sm font-bold mb-1" style="color:var(--gold)">¿Día difícil?</div>
+          <p class="text-xs text-white/70">Guarda tus <b>3 alegrías ancla</b> en <b>Día 1</b> para subir tu vibración cuando lo necesites.</p>
+        </div>`;
+    }
+  }catch(e){}
+
+  document.getElementById('popupTitle').textContent = 'Ayuda del día';
+  document.getElementById('popupText').innerHTML = `
+    ${felizHTML}
+    <div class="space-y-2">
+      <p class="text-white/90">${ayudas[d] || "Sigue los pasos del día actual."}</p>
+    </div>`;
+  const aff = document.getElementById('popupAffirm');
+  aff.textContent = '“Elijo recordar lo que me hace bien.”';
+  aff.classList.remove('hidden');
+  const btns = document.getElementById('popupButtons');
+  btns.innerHTML = `<button onclick="cerrarPopup()" class="bg-[var(--gold)] text-gray-900 font-bold px-4 py-2 rounded">Continuar</button>`;
+  document.getElementById('popup').classList.remove('hidden');
+}
+
+
+// util pequeña para evitar HTML accidental en frases
+function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+
+    /* ====== DEBUG ====== */
+    function debugReset(){
+      localStorage.removeItem("pm_pro");
+      Object.keys(localStorage).forEach(k=>{ if(k.startsWith('pm_')) localStorage.removeItem(k); });
+      mostrarPopup("Se restableció tu progreso local. Recargando…");
+      document.getElementById('popupButtons').innerHTML='';
+      setTimeout(()=>location.reload(),800);
+    }
+
+    /* ====== Guardados ====== */
+    function pm_setArea(a){ localStorage.setItem('pm_area', a); popupEmocion('Área elegida', `Has elegido <b>${a}</b> para este ciclo.`, '“Mi enfoque crea realidad.”'); }
+    function pm_saveInt(){
+      const v=(document.getElementById('d1_int').value||'').trim();
+      if (v.length<5){ mostrarPopup("Escribe una intención clara (≥5 caracteres)."); return; }
+      localStorage.setItem('pm_int', v); avanzar(3);
+    }
+    function pm_saveGrat(){
+      const v=(document.getElementById('d2_grat').value||'').trim();
+      if (!v || v.split('\n').filter(Boolean).length<10){ mostrarPopup("Escribe al menos 10 agradecimientos, uno por línea."); return; }
+      localStorage.setItem('pm_grat', v); avanzar(8);
+    }
+    function pm_saveLim(){
+      const v=(document.getElementById('d3_lim').value||'').trim();
+      if (!v){ mostrarPopup("Escribe tus creencias limitantes."); return; }
+      localStorage.setItem('pm_lim', v); avanzar(13);
+    }
+    function pm_saveGra(){
+      const v=(document.getElementById('d5_gra').value||'').trim();
+      if (!v){ mostrarPopup("Escribe 3 agradecimientos en presente."); return; }
+      localStorage.setItem('pm_gra', v); avanzar(23);
+    }
+    function pm_saveActs(){
+      const a1=(document.getElementById('d6_a1').value||'').trim();
+      const a2=(document.getElementById('d6_a2').value||'').trim();
+      const a3=(document.getElementById('d6_a3').value||'').trim();
+      if (!(a1 && a2 && a3)){ mostrarPopup("Escribe las 3 micro-acciones."); return; }
+      localStorage.setItem('pm_acts', JSON.stringify([a1,a2,a3])); avanzar(27);
+    }
+    function pm_saveCarta(){
+      const v=(document.getElementById('d7_carta').value||'').trim();
+      if (!v){ mostrarPopup("Escribe tu carta de gratitud al universo."); return; }
+      localStorage.setItem('pm_carta', v); avanzar(32); markDayDone(7);
+    }
+
+    /* ====== Timers / Respiración 4-4-4 ====== */
+    function startBreath(prefix, totalSeconds){
+      const timerEl = document.getElementById(`${prefix}_timer`);
+      const btn = document.getElementById(`${prefix}_btn`);
+      const phaseEl = document.getElementById(`${prefix}_phase`);
+      const wrap = document.getElementById(`${prefix}_wrap`);
+      let t = totalSeconds;
+      let sub = 4, phase = 0;
+      function setPhase(p){
+        phase = p; sub = 4;
+        wrap.classList.remove('phase-inhale','phase-hold','phase-exhale');
+        wrap.classList.add('phase-change');
+        setTimeout(()=>wrap.classList.remove('phase-change'), 240);
+        if (p===0){ wrap.classList.add('phase-inhale'); phaseEl && (phaseEl.textContent="Inhala (4s)"); }
+        if (p===1){ wrap.classList.add('phase-hold');   phaseEl && (phaseEl.textContent="Retén (4s)"); }
+        if (p===2){ wrap.classList.add('phase-exhale'); phaseEl && (phaseEl.textContent="Exhala (4s)"); }
+      }
+      setPhase(0);
+      clearInterval(window[`${prefix}_phase_iv`]); clearInterval(window[`${prefix}_iv`]);
+      window[`${prefix}_phase_iv`] = setInterval(()=>{
+        sub--; if (sub<=0){ setPhase((phase+1)%3); }
+      }, 1000);
+      window[`${prefix}_iv`] = setInterval(()=>{
+        const m = Math.floor(t/60).toString().padStart(2,'0');
+        const s = (t%60).toString().padStart(2,'0');
+        if (timerEl) timerEl.textContent = `${m}:${s}`;
+        t--;
+        if (t < 0){
+          clearInterval(window[`${prefix}_iv`]); clearInterval(window[`${prefix}_phase_iv`]);
+          if (timerEl) timerEl.textContent = "¡Listo!";
+          if (phaseEl) phaseEl.textContent = "Respira normal";
+          wrap.classList.remove('phase-inhale','phase-hold','phase-exhale');
+          if (btn){ btn.disabled=false; btn.classList.remove('opacity-50','cursor-not-allowed'); btn.onclick=()=>avanzar(blockFromPrefix(prefix)); }
+          // marcar día si corresponde
+          const d = dayFromBlock(blockFromPrefix(prefix));
+          markDayDone(d);
+        }
+      }, 1000);
+    }
+    function blockFromPrefix(prefix){
+      // Relación de prefijos de timers / respiración con su bloque correspondiente
+      const map = {
+        v1: 4,   // Día 1 · Visualización respiración
+        v2: 9,   // Día 2 · Visualización emocionada
+        v4: 18,  // Día 4 · Respiración
+        v4b: 19, // Día 4 · Escena mental
+        v5: 24,  // Día 5 · Gratitud corporal
+        v6: 28,  // Día 6 · Ejecuta la 1ª
+        v7: 32   // Día 7 · Ritual de entrega
+      };
+      return map[prefix] || 1;
+    }
+
+    function startSimpleTimer(prefix, totalSeconds){
+      const timerEl = document.getElementById(`${prefix}_timer`);
+      const btn     = document.getElementById(`${prefix}_btn`);
+
+      // limpiar intervalos previos
+      if (window[`${prefix}_iv`]) clearInterval(window[`${prefix}_iv`]);
+
+      let t = Number(totalSeconds) || 60;
+
+      window[`${prefix}_iv`] = setInterval(()=>{
+        const m = Math.floor(t/60).toString().padStart(2,'0');
+        const s = (t%60).toString().padStart(2,'0');
+        if (timerEl) timerEl.textContent = `${m}:${s}`;
+        t--;
+
+        if (t < 0){
+          clearInterval(window[`${prefix}_iv`]);
+          if (timerEl) timerEl.textContent = "¡Listo!";
+
+          // habilitar botón continuar
+          if (btn){
+            btn.disabled = false;
+            btn.classList.remove('opacity-50','cursor-not-allowed');
+            btn.onclick = () => avanzar(blockFromPrefix(prefix));
+          }
+
+          // marcar el día correspondiente como completado
+          const nextBlock = blockFromPrefix(prefix);
+          const day = dayFromBlock(nextBlock);
+          markDayDone(day);
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
