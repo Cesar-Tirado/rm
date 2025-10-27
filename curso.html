@@ -810,7 +810,9 @@
     <div class="max-w-2xl mx-auto flex items-center justify-center gap-3 relative">
       
       <div class="dia-circulo bg-[var(--gold)] text-gray-900"><span>1</span></div>
-      <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>2</span><small class="chip-pro"></small></div>
+<div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center">
+  <span>2</span><small class="chip-pro">PRO</small>
+</div>      
       <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>3</span><small class="chip-pro">PRO</small></div>
       <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>4</span><small class="chip-pro">PRO</small></div>
       <div class="dia-circulo bg-white/20 text-white text-xs flex flex-col justify-center"><span>5</span><small class="chip-pro">PRO</small></div>
@@ -848,13 +850,14 @@
 
       const isPRO = localStorage.getItem("pm_pro") === "true";
       const day = dayFromBlock(bloqueActual);
-      if (day >= 3 && !isPRO){
-        ofertaPRO(true);
-        // Regresar al final del último día free
-        document.getElementById('b11').classList.remove('hidden');
-        actualizarProgreso(11);
-        return;
-      }
+if (day >= 2 && !isPRO){
+  ofertaPRO(true);
+  // Regresar al final del último día free (Día 1 termina en b6)
+  document.getElementById('b6').classList.remove('hidden');
+  actualizarProgreso(6);
+  return;
+}
+
 
       next.classList.remove('hidden');
       actualizarProgreso(bloqueActual);
@@ -918,12 +921,12 @@ function getCurrentBlockFromDOM(){
       });
     }
     function goToDay(day){
-      const isPRO = localStorage.getItem("pm_pro") === "true";
-      if (day === 1) { showDayStart(1); return; }
-      if (day === 2) { showDayStart(2); return; }
-      if (!isPRO){ ofertaPRO(true); return; }
-      showDayStart(day);
-    }
+  const isPRO = localStorage.getItem("pm_pro") === "true";
+  if (day === 1) { showDayStart(1); return; }
+  if (!isPRO){ ofertaPRO(true); return; }
+  showDayStart(day);
+}
+
     function showDayStart(day){
   document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
   const starts = [0,1,7,12,17,22,26,30];
@@ -995,7 +998,7 @@ function getCurrentBlockFromDOM(){
         <div class="space-y-2">
           <p class="text-white/90">Desbloquea los <strong>7 días</strong> y completa el ciclo de 21 días (repítelo 3 veces).</p>
           <ul class="list-disc list-inside text-white/85 text-sm space-y-1">
-            <li>Días 3–7: creencias, emoción elevada, gratitud avanzada, acción inspirada y ritual de cierre.</li>
+<li>Días 2–7: vibración, creencias, emoción elevada, gratitud avanzada, acción inspirada y ritual de cierre.</li>
             <li>Acceso de por vida · Funciona offline · Pago único.</li>
           </ul>
           ${desdeBloqueo ? `<p class="text-xs text-white/60">* Necesitas PRO para continuar con este día.</p>` : ``}
@@ -1005,7 +1008,7 @@ function getCurrentBlockFromDOM(){
       aff.classList.remove('hidden');
       const btns = document.getElementById('popupButtons');
       btns.innerHTML = `
-        <a href="https://tu-enlace-gumroad-o-hotmart.com" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-lg font-bold">Comprar PRO $5</a>
+        <a href="https://pay.hotmart.com/F102507289Q" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-lg font-bold">Comprar PRO $5</a>
         <button onclick="abrirCodePopup()" class="bg-[var(--gold)] text-gray-900 px-4 py-2 rounded-lg font-bold">Ya tengo un código</button>
         <button onclick="cerrarPopup()" class="bg-white/10 px-4 py-2 rounded-lg">Más tarde</button>`;
       document.getElementById('popup').classList.remove('hidden');
@@ -1026,9 +1029,9 @@ function getCurrentBlockFromDOM(){
     function desbloquearBolasPRO(){
       const footer = document.getElementById("footerBolas");
       footer.querySelectorAll(".dia-circulo").forEach((el,idx)=>{
-        if (idx<=1) return;
-        const chip = el.querySelector('.chip-pro'); if (chip) chip.remove();
-      });
+  if (idx === 0) return; // quita PRO desde el día 2 al 7
+  const chip = el.querySelector('.chip-pro'); if (chip) chip.remove();
+});
     }
 
     // ====== Guardar y cargar alegrías ancla (felicidad) ======
