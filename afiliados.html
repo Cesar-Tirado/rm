@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Afiliados — Reto Manifestación PRO</title>
+  <meta name="description" content="Afíliate GRATIS y gana 75% de comisión ($ 3 DÓLARES por venta) compartiendo Reto Manifestación PRO — Método de 7 días. Pasos simples, materiales listos y pagos automáticos por Hotmart." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="canonical" href="https://retomanifestacion.com/afiliados.html">
+
+  <meta property="og:title" content="Afiliados · Reto Manifestación — Método 7 días">
+  <meta property="og:description" content="Afíliate GRATIS y gana 75% de comisión ($ 3 DÓLARES por venta) compartiendo el reto PRO. Materiales listos y pagos automáticos Hotmart.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://retomanifestacion.com/afiliados.html">
+  <meta property="og:image" content="https://retomanifestacion.com/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{ --violet:#5b6ee1; --indigo:#22306b; --gold:#f5d061; --rose:#ff8ba7; --emerald:#10b981; --night:#0b1020; --ink:#1b2240; }
+    html,body{scroll-behavior:smooth; max-width:100%; overflow-x:hidden}
+    body{
+      background:
+        radial-gradient(1200px 700px at 50% -10%, #1b2240 0%, #0b1020 60%),
+        linear-gradient(180deg, #0b1020 0%, #0b1020 100%);
+      color:#fff; font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      padding-top:84px;
+    }
+    .container{max-width:1120px;margin-inline:auto;padding-inline:1.25rem}
+    @media (min-width:480px){.container{padding-inline:1.5rem}}
+    @media (min-width:768px){.container{padding-inline:2rem}}
+    @media (min-width:1024px){.container{padding-inline:2.25rem}}
+    .section{padding-block:3.5rem}
+    @media (min-width:768px){.section{padding-block:4.25rem}}
+    @media (min-width:1024px){.section{padding-block:4.75rem}}
+
+    .logo-font,h1,h2,h3{font-family:"Inter",sans-serif;letter-spacing:-0.02em}
+    h1{font-weight:900;font-size:clamp(2.2rem,3.2vw+1rem,3.6rem);line-height:1.08}
+    h2{font-weight:900;font-size:clamp(1.8rem,1.8vw+1rem,2.6rem);line-height:1.12}
+    h3{font-weight:800}
+    .stroke-gold{text-shadow:0 0 25px rgba(245,208,97,.18)}
+
+    .glass{background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.28)); border:1px solid rgba(255,255,255,.14)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.18)); border:1px solid rgba(255,255,255,.10); border-radius:16px}
+    .tag{border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.05)}
+
+    /* Botones */
+    .btn-primary{background:var(--gold); color:#0b1020; font-weight:900; box-shadow:0 10px 34px rgba(245,208,97,.28)}
+    .btn-primary:hover{filter:brightness(0.96)}
+    .btn-ghost{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); color:#fff}
+    .btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+    /* Tabs */
+    .tab-btn{font-weight:900; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.04); color:#fff}
+    .tab-btn:hover{border-color:var(--gold)}
+    .tab-btn.is-active{border-color:var(--gold); background:var(--gold); color:#0b1020; box-shadow:0 10px 30px rgba(245,208,97,.25)}
+
+    .grid-safe{display:grid; gap:1rem}
+    @media (min-width:640px){.grid-safe{gap:1.25rem}}
+    @media (min-width:1024px){.grid-safe{gap:1.5rem}}
+
+    /* Banner superior fijo */
+    .top-banner{position:fixed; top:0; left:0; right:0; z-index:60; border-bottom:1px solid rgba(255,255,255,.1); background:linear-gradient(180deg, rgba(13,21,48,.85), rgba(13,21,48,.72)); backdrop-filter:blur(6px)}
+
+    /* Glow reutilizable */
+    .halo{position:absolute; inset:0; pointer-events:none}
+    .halo::before{content:""; position:absolute; left:50%; top:-20%; width:1200px; height:1200px; transform:translateX(-50%); border-radius:50%; background:radial-gradient(closest-side, rgba(91,110,225,.14), rgba(91,110,225,0) 70%)}
+
+    /* FAQ */
+    .faq-accordion details{border-bottom:1px solid rgba(255,255,255,.10);padding:.25rem 0}
+    .faq-accordion summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:1rem 0;font-weight:800}
+    .faq-accordion summary::-webkit-details-marker{display:none}
+    .faq-accordion .a{padding:0 0 1rem 0;color:rgba(255,255,255,.8);font-size:.95rem}
+
+    /* Números */
+    .money{font-variant-numeric:tabular-nums; letter-spacing:.01em}
+    .money-strong{font-size:1.35rem; font-weight:900; color:var(--gold)}
+    .money-strong2{font-size:1.35rem; font-weight:900; color:#fff}
+
+    /* Secciones con banner/halo interno -> usar el MISMO halo del Hero */
+    .section-banner{position:relative; overflow:hidden}
+    .section-banner::before{content:none} /* desactiva el glow alterno para que se vea igual al inicio */
+
+    .banner-title{color:var(--gold)}
+
+    /* Beneficios: títulos en amarillo */
+    .beneficios .card h3{ color: var(--gold); }
+
+    /* Ajuste: reducir el tamaño del título del banner superior */
+    .top-banner h1{ font-size: clamp(1.35rem, 2.2vw + .35rem, 2rem); }
+    @media (min-width:640px){
+      .top-banner h1{ font-size: clamp(1.6rem, 1.6vw + .9rem, 2.2rem); }
+    }
+
+    /* --- Banner cards mejoradas --- */
+.banner-card{
+  position:relative; overflow:hidden; border-radius:16px;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.18));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.banner-card::before{
+  /* borde degradado interior */
+  content:""; position:absolute; inset:0; padding:1px; border-radius:16px;
+  background:linear-gradient(90deg, rgba(245,208,97,.9), rgba(91,110,225,.5), rgba(245,208,97,.9));
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0); 
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events:none; opacity:.55;
+}
+.banner-card .accent{
+  /* barra superior visible + animación */
+  position:absolute; top:0; left:0; right:0; height:3px; z-index:2;
+  background:linear-gradient(90deg, var(--gold), rgba(91,110,225,.9), var(--gold));
+  background-size:200% 100%;
+  animation:slide-accent 8s linear infinite;
+  box-shadow:0 0 18px rgba(245,208,97,.35);
+}
+@keyframes slide-accent{
+  0%{ background-position:0% 50% }
+  100%{ background-position:200% 50% }
+}
+
+/* glow interno suave */
+.banner-card .inner-glow{
+  position:absolute; inset:-20% -10% auto -10%; height:260px; pointer-events:none;
+  background:
+    radial-gradient(closest-side, rgba(245,208,97,.18), rgba(245,208,97,0) 65%),
+    radial-gradient(closest-side, rgba(91,110,225,.18), rgba(91,110,225,0) 70%);
+  filter:blur(28px);
+}
+
+/* tipografía y layout */
+.banner-title{ color:var(--gold) }
+.banner-lead{ color:rgba(255,255,255,.84) }
+
+/* lista de cálculo con bullets custom */
+.calc-list{ list-style:none; padding:0; margin:0 }
+.calc-list li{
+  position:relative; padding-left:1.5rem;
+}
+.calc-list li::before{
+  content:"◆"; position:absolute; left:0; top:.1rem; font-size:.8rem; 
+  color:var(--gold); opacity:.85;
+}
+
+/* separar mejor los bloques y asegurar que no quede pegado al bloque anterior */
+.section-banner .container{ margin-top:.5rem }
+@media (min-width:1024px){
+  .section-banner .container{ margin-top:.75rem }
+}
+
+  </style>
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Afiliados — Reto Manifestación","description":"Programa de Afiliados Hotmart: gratis, 75% de comisión ($ 3 DÓLARES por venta), pasos simples y materiales listos."}</script>
+</head>
+<body class="min-h-screen">
+
+  <!-- ======= BANNER SUPERIOR (fijo) ======= -->
+  <div class="top-banner">
+    <div class="container py-4 text-center">
+      <h1 class="stroke-gold logo-font font-black">
+        <span style="color:var(--gold)">Afiliados</span> · Reto Manifestación
+      </h1>
+    </div>
+  </div>
+
+  <!-- ======= HERO con CTAs ======= -->
+  <section class="relative section pt-4">
+    <div class="halo" aria-hidden="true"></div>
+    <div class="container grid-safe lg:grid-cols-2 items-center">
+      <div>
+        <h2 class="logo-font mb-2 text-center text-3xl sm:text-4xl font-black">
+          Gana comisiones compartiendo <span style="color:var(--gold)">Reto Manifestación PRO</span>
+        </h2>
+        <p class="text-white/80 text-xl text-center font-semibold">Afiliarse es gratis. Sin inversión. Te damos materiales listos.</p>
+        <p class="text-white/80 mt-2 text-base text-center font-bold"><b style="color:var(--gold)">Comisión:</b> 75% (<b>$ 3 DÓLARES</b> por venta)</p>
+        <div class="flex flex-col sm:flex-row gap-3 mt-6 w-full sm:w-auto justify-center">
+          <a id="cta-afiliar" class="btn-primary px-7 py-3 rounded-xl text-lg text-center" href="#" aria-label="Quiero afiliarme ahora">Quiero afiliarme ahora</a>
+        </div>
+        <p class="text-white/60 text-xs mt-2 text-center">Pagos gestionados por Hotmart. Rastreo de ventas automático.</p>
+      </div>
+
+      <!-- Info del producto con precio/comisión -->
+      <div class="glass rounded-2xl p-6 mt-8 lg:mt-0">
+        <div class="text-sm text-white/70 text-center uppercase tracking-wide">Producto</div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-center">Reto Manifestación PRO</div>
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <div class="card p-4 text-center">
+            <div class="text-white/70 text-sm">Precio</div>
+            <div class="money-strong2"><span data-amount="5.00">$ 5.00</span> DÓLARES</div>
+          </div>
+          <div class="card p-4 text-center">
+            <div class="text-white/70 text-sm">Tu comisión</div>
+            <div class="money money-strong"><span class="price-animate" data-amount="3.00">$ 3.00</span> DÓLARES</div>
+          </div>
+        </div>
+        <p class="text-sm text-white/70 mt-3 text-center">Materiales listos + ideas de posts. Sin mínimos, sin costos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= PASOS DE LA VENTA (ULTRA SIMPLE) ======= -->
+<section id="pasos" class="section pt-0 section-banner">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container">
+    <div class="banner-card p-6 sm:p-8">
+      <div class="accent"></div>
+      <div class="inner-glow" aria-hidden="true"></div>
+
+      <div class="text-center max-w-3xl mx-auto mb-6">
+        <h2 class="logo-font banner-title text-2xl sm:text-3xl font-black">¿Cómo es la venta? Paso a paso</h2>
+        <p class="banner-lead text-base sm:text-lg">
+          Cuatro pasos, sin vueltas. Lo haces una vez y repites. Si sabes enviar un link, ya puedes ganar.
+        </p>
+      </div>
+
+      <!-- Stepper superior (decorativo) -->
+      <div class="hidden md:flex items-center justify-center gap-4 mb-6">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div>
+          <div class="w-20 h-[2px] bg-white/20"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div>
+          <div class="w-20 h-[2px] bg-white/20"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div>
+          <div class="w-20 h-[2px] bg-white/20"></div>
+        </div>
+        <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div>
+      </div>
+
+      <ol class="grid-safe lg:grid-cols-4">
+        <!-- Paso 1 -->
+        <li class="card p-5">
+          <div class="flex items-center justify-center mb-3">
+            <span class="w-10 h-10 rounded-full grid place-items-center font-black text-[var(--indigo)]"
+                  style="background:var(--gold)">1</span>
+          </div>
+          <h3 class="text-center font-extrabold text-lg">Afíliate (GRATIS)</h3>
+          <p class="text-white/80 text-sm mt-2 text-center">
+            Toca <b>“Afiliarme ahora”</b> y pide tu afiliación en Hotmart. Si no tienes cuenta,
+            créala gratis y vuelve. Listo.
+          </p>
+          <div class="mt-3 text-center">
+            <a href="#" aria-label="Afiliarme ahora" class="btn-primary inline-block px-4 py-2 rounded-lg">Afiliarme</a>
+          </div>
+        </li>
+
+        <!-- Paso 2 -->
+        <li class="card p-5">
+          <div class="flex items-center justify-center mb-3">
+            <span class="w-10 h-10 rounded-full grid place-items-center font-black text-[var(--indigo)]"
+                  style="background:var(--gold)">2</span>
+          </div>
+          <h3 class="text-center font-extrabold text-lg">Copia tu link</h3>
+          <p class="text-white/80 text-sm mt-2 text-center">
+            En tu panel de Hotmart, entra al producto y copia tu <b>enlace de afiliado</b>.
+            Es tu “ID” para que te paguen.
+          </p>
+          <p class="text-white/60 text-xs mt-2 text-center">
+            Tip: guarda el link en Notas/WhatsApp para tenerlo siempre a mano.
+          </p>
+        </li>
+
+        <!-- Paso 3 -->
+        <li class="card p-5">
+          <div class="flex items-center justify-center mb-3">
+            <span class="w-10 h-10 rounded-full grid place-items-center font-black text-[var(--indigo)]"
+                  style="background:var(--gold)">3</span>
+          </div>
+          <h3 class="text-center font-extrabold text-lg">Comparte y vende</h3>
+          <p class="text-white/80 text-sm mt-2 text-center">
+            Publica en <b>WhatsApp, Instagram, TikTok</b> o envíalo a familia y amigos.
+            Usa nuestros <b>copys e imágenes</b> listos.
+          </p>
+          <p class="text-white/60 text-xs mt-2 text-center">
+            Mientras usen tu link, la venta se rastrea a tu nombre.
+          </p>
+        </li>
+
+        <!-- Paso 4 -->
+        <li class="card p-5">
+          <div class="flex items-center justify-center mb-3">
+            <span class="w-10 h-10 rounded-full grid place-items-center font-black text-[var(--indigo)]"
+                  style="background:var(--gold)">4</span>
+          </div>
+          <h3 class="text-center font-extrabold text-lg">Recibe tu comisión</h3>
+          <p class="text-white/80 text-sm mt-2 text-center">
+            Si hay compra, Hotmart registra la venta y te asigna <b>75%</b> de comisión
+            (<b>$ 3 DÓLARES</b> por venta).
+          </p>
+          <p class="text-white/60 text-xs mt-2 text-center">
+            Los pagos se hacen por Hotmart según disponibilidad en tu país.
+          </p>
+        </li>
+      </ol>
+
+      <div class="text-center mt-6">
+        <a href="#" aria-label="Quiero afiliarme ahora" class="btn-primary px-6 py-3 rounded-xl text-base font-black">
+          ¡Entendido! Quiero afiliarme
+        </a>
+        <p class="text-white/60 text-xs mt-2">
+          ¿Dudas? Revisa los <a href="#faq" class="underline">FAQ</a> al final.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ======= ¿CÓMO FUNCIONA? ======= -->
+  <section id="como-funciona" class="section">
+    <div class="container">
+      <h2 class="logo-font mb-4 text-center text-3xl sm:text-4xl font-black">¿Cómo funciona?</h2>
+
+      <!-- Tabs -->
+      <div class="flex gap-3 mb-6 justify-center">
+        <button id="tab-tengo" class="tab-btn px-5 py-2.5 rounded-lg is-active" aria-controls="panel-tengo" aria-selected="true">
+          Tengo cuenta
+        </button>
+        <button id="tab-no" class="tab-btn px-5 py-2.5 rounded-lg" aria-controls="panel-no" aria-selected="false">
+          No tengo cuenta
+        </button>
+      </div>
+
+      <!-- Cards centradas -->
+      <div class="grid-safe lg:grid-cols-3 justify-items-center place-items-center">
+        <!-- TENGO CUENTA -->
+        <div id="panel-tengo" class="card p-6 text-center w-full max-w-md mx-auto">
+          <h3 class="text-xl sm:text-2xl font-extrabold mb-3">Ya tengo cuenta Hotmart</h3>
+          <ol class="list-decimal text-left sm:text-center sm:list-none pl-5 sm:pl-0 space-y-2 text-white/80 max-w-md mx-auto">
+            <li>Haz clic en <b>Quiero afiliarme ahora</b>.</li>
+            <li>Inicia sesión si hace falta y solicita afiliación.</li>
+            <li>Una vez aprobado, copia tu link de afiliado.</li>
+            <li>Comparte el link. Si hay venta, Hotmart te paga tu comisión.</li>
+          </ol>
+        </div>
+
+        <!-- NO TENGO CUENTA -->
+        <div id="panel-no" class="card p-6 text-center w-full max-w-md hidden mx-auto">
+          <h3 class="text-xl sm:text-2xl font-extrabold mb-3">No tengo cuenta Hotmart (GRATIS)</h3>
+          <ol class="list-decimal text-left sm:text-center sm:list-none pl-5 sm:pl-0 space-y-2 text-white/80 max-w-md mx-auto">
+            <li>Entra a <a class="underline" href="https://app-vlc.hotmart.com/affiliate-recruiting/view/3037R102507310" target="_blank" rel="noopener">Crear mi cuenta (GRATIS)</a>.</li>
+            <li>Completa tu registro (correo y verificación).</li>
+            <li>Vuelve aquí y pulsa <b>Quiero afiliarme ahora</b>.</li>
+            <li>Copia tu link de afiliado y compártelo. Hotmart rastrea y paga.</li>
+          </ol>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="card p-6 text-center w-full max-w-md mx-auto">
+          <h3 class="text-xl sm:text-2xl font-extrabold mb-3">Checklist rápido</h3>
+          <ul class="space-y-2 max-w-md mx-auto text-left sm:text-center">
+            <li>✅ Afiliarse es <b>GRATIS</b> (sin inversión).</li>
+            <li>✅ Recibes <b>75%</b> por venta (<b>$ 3 DÓLARES</b> por venta).</li>
+            <li>✅ Panel con estadísticas y pagos automáticos.</li>
+            <li>✅ Materiales listos para compartir (copys, imágenes, ideas de posts).</li>
+            <li>✅ Soporte básico por WhatsApp <a id="wa-link" class="underline" href="#" target="_blank" rel="noopener">(opcional)</a>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!-- ======= ¿POR QUÉ TE INVITAMOS? ======= -->
+<section class="section pt-0 section-banner">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container">
+    <div class="banner-card p-6 sm:p-8 text-center">
+      <div class="accent"></div>
+      <div class="inner-glow" aria-hidden="true"></div>
+
+      <div class="mx-auto max-w-3xl">
+        <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide"
+             style="border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); color:var(--gold);">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" class="inline-block">
+            <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.76L5.82 21z"/>
+          </svg>
+          Invitación exclusiva
+        </div>
+
+        <h2 class="logo-font mt-4 mb-2 banner-title text-2xl sm:text-3xl font-black">
+          ¿Por qué te invitamos?
+        </h2>
+        <p class="banner-lead text-base sm:text-lg">
+          Si recibiste este link, es porque nos gustó tu contenido y creemos que podemos trabajar de la mano.
+          Afiliarse es <b>GRATIS</b>: prueba y ve los resultados.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ======= BENEFICIOS ======= -->
+  <section class="section beneficios">
+    <div class="container">
+      <h2 class="logo-font mb-4 text-center text-3xl sm:text-4xl font-black">Beneficios para el afiliado</h2>
+      <div class="grid-safe lg:grid-cols-3">
+        <div class="card p-5 text-center"><h3 class="font-extrabold text-xl">Comisiones claras</h3><p class="text-white/80">75% por venta (<span class="money">$ 3 DÓLARES</span>).</p></div>
+        <div class="card p-5 text-center"><h3 class="font-extrabold text-xl">Afiliación GRATIS</h3><p class="text-white/80">Sin costos, sin mínimos.</p></div>
+        <div class="card p-5 text-center"><h3 class="font-extrabold text-xl">Material listo</h3><p class="text-white/80">Copys + creatividades para RRSS.</p></div>
+        <div class="card p-5 text-center"><h3 class="font-extrabold text-xl">Pagos automáticos Hotmart</h3><p class="text-white/80">Seguridad y transparencia.</p></div>
+        <div class="card p-5 text-center"><h3 class="font-extrabold text-xl">Producto accesible</h3><p class="text-white/80"><span class="money">$ 5.00 DÓLARES</span>. Conversión sencilla.</p></div>
+        <div class="card p-5 text-center"><h3 class="font-extrabold text-xl">Soporte y guía</h3><p class="text-white/80">WhatsApp opcional + ejemplos y UTM.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= MATERIALES ======= -->
+  <section id="materiales" class="section">
+    <div class="container grid-safe lg:grid-cols-3 items-start">
+      <div class="lg:col-span-2">
+        <h2 class="logo-font mb-3 text-center text-3xl sm:text-4xl font-black">Materiales que te damos</h2>
+        <ul class="space-y-2 max-w-2xl mx-auto">
+          <li>• Copys para WhatsApp, Instagram, TikTok y Reels.</li>
+          <li>• Imágenes y mockups del producto.</li>
+          <li>• Guión corto de video (15–30s) para “antes/después” o “cómo usar”.</li>
+          <li>• Enlaces de ejemplo con UTM (qué son y cómo usarlos).</li>
+        </ul>
+      </div>
+      <div class="card p-6 text-center">
+        <h3 class="font-bold mb-2">¿Listo para verlos?</h3>
+        <p class="text-white/70 mb-3">Usa los que mejor se adapten a ti.</p>
+        <a href="/materiales.html" class="btn-primary px-4 py-2 rounded-lg inline-block">Ver materiales</a>
+      </div>
+    </div>
+  </section>
+
+
+
+<!-- ======= COPRODUCTOR + CÁLCULO SIMPLE ======= -->
+<section class="section pt-0 section-banner">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container grid-safe lg:grid-cols-3">
+    <!-- Bloque grande: coproductor -->
+    <div class="banner-card p-6 sm:p-8 lg:col-span-2 text-center">
+      <div class="accent"></div>
+      <div class="inner-glow" aria-hidden="true"></div>
+
+      <div class="mx-auto max-w-3xl">
+        <h2 class="logo-font mb-2 banner-title text-2xl sm:text-3xl font-black">
+          Meta extra: coproductor <span class="text-white/70 text-sm font-semibold">(opcional)</span>
+        </h2>
+        <p class="banner-lead text-base sm:text-lg">
+          Si consigues ventas constantes, puedes postular a <b>coproductor</b>: comisiones por cada venta
+          del proyecto, no solo las tuyas. Te contamos cómo cuando logres tus primeras
+          <span class="px-1 rounded bg-white/10 border border-white/20">20</span> ventas.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bloque pequeño: cálculo -->
+    <div class="banner-card p-6 sm:p-8 text-center">
+      <div class="accent"></div>
+      <div class="inner-glow" aria-hidden="true"></div>
+
+      <h3 class="logo-font font-black mb-2 banner-title text-xl sm:text-2xl">
+        Comparativa / Cálculo simple
+      </h3>
+      <ul class="calc-list text-sm sm:text-base text-white/80 space-y-2 text-left sm:text-center mx-auto max-w-xs">
+        <li>Con 1 venta diaria: <b>$ 3</b> × 30 = <b>$ 90/mes</b>.</li>
+        <li>Con 3 ventas/semana: <b>$ 3</b> × 12 = <b>$ 36/mes</b>.</li>
+      </ul>
+      <p class="text-white/60 text-xs mt-3">
+        Ejemplos estimados; tus resultados dependen de tu alcance y constancia.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- ======= FAQ ======= -->
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="logo-font mb-4 text-center text-3xl sm:text-4xl font-black">Preguntas Frecuentes</h2>
+      <div class="glass rounded-2xl p-6 max-w-3xl mx-auto faq-accordion">
+        <details open>
+          <summary><span>¿Afiliarse cuesta?</span><span aria-hidden="true">+</span></summary>
+          <div class="a">No, es <b>GRATIS</b>.</div>
+        </details>
+        <details>
+          <summary><span>¿Cómo y cuándo me pagan?</span><span aria-hidden="true">+</span></summary>
+          <div class="a">Hotmart procesa y paga según su calendario y método disponible en tu país. Revisa tu panel para fechas y métodos.</div>
+        </details>
+        <details>
+          <summary><span>¿Qué pasa si el cliente compra después?</span><span aria-hidden="true">+</span></summary>
+          <div class="a">Las ventas se rastrean por tu enlace de afiliado y cookies de Hotmart mientras estén vigentes y el usuario no cambie de enlace.</div>
+        </details>
+        <details>
+          <summary><span>¿Necesito experiencia?</span><span aria-hidden="true">+</span></summary>
+          <div class="a">No. Te damos materiales listos y ejemplos. Copia, adapta y comparte.</div>
+        </details>
+        <details>
+          <summary><span>¿Puedo usar mis propias creatividades?</span><span aria-hidden="true">+</span></summary>
+          <div class="a">Sí, mantén claims honestos y evita promesas irreales. El objetivo es transparencia y confianza.</div>
+        </details>
+        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <a class="btn-primary px-6 py-3 rounded-xl text-center" href="#" aria-label="Afiliarme ahora">Afiliarme ahora</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Sticky CTA (móvil) ======= -->
+  <div class="sticky-cta md:hidden border-t border-white/10">
+    <div class="container py-3 flex items-center gap-3">
+      <div class="text-white/80 text-sm">Programa de Afiliados <b>(GRATIS)</b></div>
+      <div class="ml-auto flex gap-2">
+        <a id="cta-afiliar-sticky" class="btn-primary px-4 py-2 rounded-lg" href="#" aria-label="Afiliarme">Afiliarme</a>
+        <a class="btn-primary px-4 py-2 rounded-lg" href="https://app-vlc.hotmart.com/affiliate-recruiting/view/3037R102507310" target="_blank" rel="noopener">Crear cuenta</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/10">
+    <div class="container py-8 text-center text-white/50 text-xs">© <span id="y"></span> · Reto Manifestación — Programa de Afiliados.</div>
+  </footer>
+
+  <script>
+    // ===== Configura tus enlaces =====
+    const URL_RECLUTAMIENTO = "https://app-vlc.hotmart.com/affiliate-recruiting/view/3037R102507310"; // TODO: URL_RECLUTAMIENTO (tu enlace directo de reclutamiento Hotmart)
+    const WHATSAPP_SOPORTE = "";   // TODO: WHATSAPP_SOPORTE (opcional, ej. https://wa.me/xxxxxxxxxx)
+
+    // Inyecta URL de reclutamiento en todos los CTAs que contengan "afiliarme"
+    [document.getElementById('cta-afiliar'), document.getElementById('cta-afiliar-sticky'), ...document.querySelectorAll('a')]
+      .filter(Boolean)
+      .forEach(el=>{
+        const label = (el.getAttribute('aria-label')||el.textContent||'').toLowerCase();
+        if(label.includes('afiliarme') || label.includes('quiero afiliarme')){
+          el.setAttribute('href', URL_RECLUTAMIENTO);
+        }
+      });
+
+    // Tabs: ¿Cómo funciona?
+    const tabTengo = document.getElementById('tab-tengo');
+    const tabNo = document.getElementById('tab-no');
+    const panelTengo = document.getElementById('panel-tengo');
+    const panelNo = document.getElementById('panel-no');
+    function activate(btn){ [tabTengo,tabNo].forEach(b=>b.classList.remove('is-active')); btn.classList.add('is-active'); }
+    function showTengo(){ panelTengo.classList.remove('hidden'); panelNo.classList.add('hidden'); tabTengo.setAttribute('aria-selected','true'); tabNo.setAttribute('aria-selected','false'); activate(tabTengo); }
+    function showNo(){ panelNo.classList.remove('hidden'); panelTengo.classList.add('hidden'); tabNo.setAttribute('aria-selected','true'); tabTengo.setAttribute('aria-selected','false'); activate(tabNo); }
+    tabTengo?.addEventListener('click', showTengo);
+    tabNo?.addEventListener('click', showNo);
+    // Arrancar en "Tengo cuenta"
+    showTengo();
+
+    // WhatsApp soporte (opcional)
+    const wa = document.getElementById('wa-link');
+    if(wa && WHATSAPP_SOPORTE){ wa.href = WHATSAPP_SOPORTE; wa.textContent = 'WhatsApp soporte'; }
+
+    // Animación de precios (count-up suave)
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    function animatePrices(){
+      document.querySelectorAll('.price-animate').forEach(el=>{
+        const target = parseFloat(el.dataset.amount||'0');
+        const startTime = performance.now();
+        const dur = 900; // ms
+        function step(now){
+          const p = Math.min(1, (now - startTime)/dur);
+          const val = easeOut(p) * target;
+          el.textContent = `$ ${val.toFixed(2)}`;
+          if(p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }
+    window.addEventListener('load', animatePrices);
+
+    // Año footer
+    const y = document.getElementById('y');
+    if(y) y.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
