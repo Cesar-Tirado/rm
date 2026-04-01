@@ -40,6 +40,40 @@
       backdrop-filter: blur(3px);
     }
 
+.viz-stage{
+  width: 120px;
+  height: 120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.viz-orb{
+  width: 68px;
+  height: 68px;
+  border-radius:9999px;
+  background: radial-gradient(circle at 30% 30%, #fde68a, #fbbf24 70%);
+  box-shadow: 0 0 0 0 rgba(251,191,36,.25);
+  transform: scale(1);
+  transition: transform .9s ease, box-shadow .9s ease, opacity .5s ease;
+}
+
+.viz-orb.expand{
+  transform: scale(1.35);
+  box-shadow: 0 0 0 16px rgba(251,191,36,.08);
+}
+
+.viz-orb.soft{
+  transform: scale(1.12);
+  box-shadow: 0 0 0 10px rgba(251,191,36,.06);
+}
+
+.viz-orb.done{
+  background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e 70%);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 14px rgba(34,197,94,.10);
+}
     /* Globo 4-4-4 progresivo */
     .balloon{width:124px;height:124px;margin:0 auto;display:block}
     .balloon__shape{transform-origin:50% 55%}
@@ -148,6 +182,54 @@
     </div>
   </div>
 
+  <!-- POPUP AUDIO -->
+<div id="audioPopup" class="hidden fixed inset-0 z-50 overlay p-4 flex items-center justify-center">
+  <div class="popup-card rounded-2xl p-6 max-w-md w-full text-center">
+    <h3 class="text-2xl font-extrabold mb-2" style="color:var(--gold)">Activa tu audio de enfoque</h3>
+    <p id="audioPopupText" class="text-sm text-white/80 mb-4"></p>
+
+    <div class="flex gap-2 justify-center flex-wrap">
+      <button onclick="activarAudioActual()" class="bg-emerald-500 hover:bg-emerald-600 px-5 py-2 rounded-lg font-bold">
+        Reproducir audio
+      </button>
+      <button onclick="cerrarAudioPopup()" class="bg-white/10 hover:bg-white/20 px-5 py-2 rounded-lg">
+        Ahora no
+      </button>
+    </div>
+  </div>
+</div>
+<div class="fixed bottom-20 left-4 z-40 flex items-center gap-2">
+  <div id="audioControlPanel" class="hidden bg-[#0d1530]/95 border border-white/10 rounded-xl px-3 py-2 shadow-lg backdrop-blur">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleAudioPower()" id="audioPowerBtn"
+              class="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-3 py-2 rounded-lg">
+        Apagar
+      </button>
+
+      <div class="flex flex-col items-start">
+        <label for="audioVolumeRange" class="text-[10px] text-white/60 mb-1">Volumen</label>
+        <input id="audioVolumeRange"
+               type="range"
+               min="0"
+               max="100"
+               value="45"
+               oninput="cambiarVolumen(this.value)"
+               class="w-24 accent-yellow-300">
+      </div>
+    </div>
+  </div>
+
+  <button id="audioFloatingBtn"
+          onclick="toggleAudioPanel()"
+          class="w-12 h-12 rounded-full bg-[var(--gold)] text-gray-900 font-extrabold shadow-lg flex items-center justify-center">
+    🔊
+  </button>
+</div>
+<audio id="audioAmor" preload="auto" loop src="./audio/amor.mp3"></audio>
+<audio id="audioSalud" preload="auto" loop src="./audio/salud.mp3"></audio>
+<audio id="audioDinero" preload="auto" loop src="./audio/dinero.mp3"></audio>
+<audio id="audioProposito" preload="auto" loop src="./audio/proposito.mp3"></audio>
+
   <!-- CONTENIDO -->
   <main id="contenedor" class="max-w-2xl mx-auto p-4 space-y-6 text-center">
 
@@ -189,24 +271,6 @@
       <div class="text-sm font-bold mb-1">Ejemplo</div>
       <p class="text-xs text-white/70">Si eliges <b>Dinero</b>, tu meta puede ser conseguir un ingreso extra. Si eliges <b>Amor</b>, puede ser abrirte a una relación sana o mejorar una relación actual.</p>
     </div>
-
-    <div class="bg-white/5 rounded-lg p-3 text-left">
-      <div class="text-sm font-bold mb-1">Tus 3 alegrías ancla</div>
-      <p class="text-xs text-white/70 mb-2">
-        Escribe <b>3 cosas que te hacen sentir bien de verdad</b>. Luego podrás volver a ellas cuando estés desanimado o con energía baja.
-      </p>
-      <div class="grid gap-2">
-        <input id="d1_h1" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Escuchar música que me encanta"'>
-        <input id="d1_h2" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Un logro importante de mi vida"'>
-        <input id="d1_h3" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Pasar tiempo con alguien que amo"'>
-      </div>
-      <div class="flex items-center gap-2 mt-3">
-        <button class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-lg text-sm font-bold"
-                onclick="pm_saveFeliz()">Guardar alegrías</button>
-        <span class="text-xs text-white/60">Luego podrás verlas desde el botón <b>?</b>.</span>
-      </div>
-    </div>
-
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(2)">Continuar</button>
   </section>
 
@@ -244,38 +308,56 @@
   </section>
 
   <section id="b4" class="hidden fade-in card rounded-2xl p-5">
-    <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Visualiza tu meta durante 90 segundos</h3>
-    <p class="text-sm text-white/80 mb-2">Respira con calma y visualiza una escena donde tu deseo ya está ocurriendo. No necesitas hacerlo perfecto: solo <b>imagina y siente</b>.</p>
+  <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">
+    3) Conecta con tu meta en solo 20 segundos
+  </h3>
 
-    <div id="v1_wrap" class="mx-auto mb-2">
-      <svg class="balloon" viewBox="0 0 120 140" role="img" aria-label="Globo respiración 4-4-4">
-        <defs>
-          <radialGradient id="g1" cx="50%" cy="35%" r="60%">
-            <stop offset="0%" stop-color="#fff3c4" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.96"/>
-          </radialGradient>
-        </defs>
-        <g class="balloon__shape">
-          <ellipse cx="60" cy="60" rx="34" ry="42" fill="url(#g1)"></ellipse>
-          <path d="M54 101 L66 101 L60 116 Z" fill="#d97706"></path>
-        </g>
-      </svg>
-      <div id="v1_phase" class="text-sm text-white/80">Prepárate…</div>
-    </div>
-    <div class="text-3xl font-extrabold mb-3" id="v1_timer">01:30</div>
+  <p class="text-sm text-white/80 mb-3">
+    No necesitas hacerlo perfecto. Solo haz una pausa breve para que tu meta no se quede solo en tu cabeza.
+  </p>
 
-    <div class="bg-white/5 rounded-lg p-3 text-left">
-      <div class="text-sm font-bold mb-1">Cómo hacerlo fácil</div>
-      <ul class="list-disc list-inside text-xs text-white/70 space-y-1">
-        <li>Imagina una escena corta, como si fuera una foto o mini video.</li>
-        <li>Piensa: ¿qué ves?, ¿qué escuchas?, ¿cómo te sientes?</li>
-        <li>No busques perfección. Solo sostén la imagen con calma.</li>
-      </ul>
+  <div class="bg-white/5 rounded-lg p-4 text-left mb-4">
+    <div class="text-sm font-bold mb-2">Haz esto ahora</div>
+    <ol class="list-decimal list-inside text-xs text-white/70 space-y-1">
+      <li>Respira profundo una vez.</li>
+      <li>Imagina una escena pequeña donde ya vas avanzando.</li>
+      <li>Nota qué emoción aparece en ti.</li>
+      <li>Sostén esa sensación unos segundos.</li>
+    </ol>
+  </div>
+
+  <!-- Animación -->
+  <div class="flex flex-col items-center justify-center mb-4">
+    <div class="viz-stage mb-3">
+      <div id="vizOrb" class="viz-orb"></div>
     </div>
 
-    <div class="text-xs text-white/70 mb-3 mt-3">La visualización sirve para entrenar enfoque, emoción y dirección mental.</div>
-    <button id="v1_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
-  </section>
+    <div id="miniVizText" class="text-sm text-white/80 mb-2 text-center">
+      Pulsa empezar cuando estés listo
+    </div>
+
+    <div id="miniVizTimer" class="text-3xl font-extrabold mb-3">00:20</div>
+
+    <div class="w-full max-w-xs h-2 bg-white/10 rounded-full overflow-hidden mb-2">
+      <div id="miniVizBar" class="h-full rounded-full" style="width:0%; background:linear-gradient(90deg,#fbbf24,#fde68a); transition:width .35s ease;"></div>
+    </div>
+  </div>
+
+  <div class="flex gap-2 justify-center">
+    <button id="miniVizStart" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg">
+      Empezar
+    </button>
+    <button id="miniVizSkip" class="bg-white/10 text-white font-bold px-6 py-2 rounded-lg">
+      Saltar
+    </button>
+  </div>
+
+  <button id="v1_btn"
+          class="hidden mt-4 bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg"
+          onclick="avanzar(4)">
+    Continuar
+  </button>
+</section>
 
   <section id="b5" class="hidden fade-in card rounded-2xl p-5">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">4) Repite tu intención 3 veces hoy</h3>
@@ -350,6 +432,26 @@
       <p class="text-xs text-white/70">“Gracias por mi capacidad de avanzar”, “Gracias por la oportunidad que se acerca”, “Gracias por la calma que estoy construyendo”.</p>
     </div>
 
+   <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
+  <div class="text-sm font-bold mb-1" style="color:var(--gold)">Tus 3 alegrías ancla</div>
+  <p class="text-xs text-white/70 mb-2">
+    Antes de escribir tus agradecimientos, guarda <b>3 cosas que realmente te conectan con bienestar</b>. Luego podrás verlas desde el botón <b>?</b>.
+  </p>
+
+  <div class="grid gap-2">
+    <input id="d2_h1" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Escuchar música que me calma"'>
+    <input id="d2_h2" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Recordar algo bueno que sí logré"'>
+    <input id="d2_h3" maxlength="60" class="w-full bg-white/10 rounded p-2 text-xs" placeholder='Ej. "Pensar en alguien que amo"'>
+  </div>
+
+  <div class="flex items-center gap-2 mt-3">
+    <button class="bg-[var(--gold)] text-gray-900 font-bold px-4 py-2 rounded-lg text-sm"
+            onclick="pm_saveFeliz()">
+      Guardar alegrías
+    </button>
+    <span class="text-xs text-white/60">Se guardan para usarlas como ancla emocional.</span>
+  </div>
+</div>
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="pm_saveGrat()">Guardar</button>
   </section>
 
@@ -909,6 +1011,228 @@ if (day >= 2 && !isPRO){
     '“Hoy oriento mi energía con precisión.”'
   );
 }
+
+let currentAudio = null;
+
+const audioMap = {
+  "Amor": {
+    id: "audioAmor",
+    text: "¿Deseas reproducir un audio suave para acompañar tu enfoque en amor, apertura emocional y conexión?"
+  },
+  "Salud": {
+    id: "audioSalud",
+    text: "¿Deseas reproducir un audio suave para acompañar tu enfoque en bienestar, calma y reconexión con tu cuerpo?"
+  },
+  "Dinero": {
+    id: "audioDinero",
+    text: "¿Deseas reproducir un audio suave para acompañar tu enfoque en abundancia, claridad y seguridad?"
+  },
+  "Propósito": {
+    id: "audioProposito",
+    text: "¿Deseas reproducir un audio suave para acompañar tu enfoque en dirección, confianza e inspiración?"
+  }
+};
+
+function abrirPopupAudioSegunArea(area){
+  const cfg = audioMap[area];
+  if (!cfg) return;
+
+  document.getElementById("audioPopupText").textContent = cfg.text;
+  document.getElementById("audioPopup").classList.remove("hidden");
+}
+
+function cerrarAudioPopup(){
+  document.getElementById("audioPopup").classList.add("hidden");
+}
+
+function pausarTodosLosAudios(){
+  ["audioAmor","audioSalud","audioDinero","audioProposito"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.pause();
+      el.currentTime = 0;
+    }
+  });
+}
+
+function activarAudioActual(){
+  const area = localStorage.getItem("pm_area");
+  const cfg = audioMap[area];
+  if (!cfg) return;
+
+  pausarTodosLosAudios();
+
+  const audio = document.getElementById(cfg.id);
+  if (!audio) return;
+
+  audio.volume = 0.45;
+  audio.play().then(() => {
+    currentAudio = cfg.id;
+    localStorage.setItem("pm_audio_enabled", "true");
+    actualizarBotonAudio();
+    actualizarTextoBotonAudio(); // <-- agrega esta línea
+    cerrarAudioPopup();
+
+    popupEmocion(
+      "Audio activado",
+      "🔊 Tu audio de enfoque está acompañando este proceso.",
+      "“Entro en mi práctica con más presencia.”"
+    );
+  }).catch(() => {
+    cerrarAudioPopup();
+    mostrarPopup("No se pudo reproducir el audio en este momento. Intenta nuevamente tocando el botón flotante.");
+  });
+}
+function toggleAudioPanel(){
+  const panel = document.getElementById("audioControlPanel");
+  if (!panel) return;
+  panel.classList.toggle("hidden");
+}
+
+function toggleAudioPower(){
+  const enabled = localStorage.getItem("pm_audio_enabled") === "true";
+
+  if (enabled) {
+    pausarTodosLosAudios();
+    localStorage.setItem("pm_audio_enabled", "false");
+    currentAudio = null;
+  } else {
+    activarAudioActualDesdeBoton();
+  }
+
+  actualizarBotonAudio();
+  actualizarTextoBotonAudio();
+}
+
+function cambiarVolumen(valor){
+  const volume = Math.max(0, Math.min(1, Number(valor) / 100));
+  localStorage.setItem("pm_audio_volume", String(volume));
+
+  ["audioAmor","audioSalud","audioDinero","audioProposito"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.volume = volume;
+  });
+}
+
+function actualizarTextoBotonAudio(){
+  const btn = document.getElementById("audioPowerBtn");
+  if (!btn) return;
+
+  const enabled = localStorage.getItem("pm_audio_enabled") === "true";
+  btn.textContent = enabled ? "Apagar" : "Encender";
+}
+function toggleAudioManual(){
+  const enabled = localStorage.getItem("pm_audio_enabled") === "true";
+  const area = localStorage.getItem("pm_area");
+
+  if (!area) {
+    mostrarPopup("Primero elige un área para activar tu audio de enfoque.");
+    return;
+  }
+
+  if (enabled) {
+    pausarTodosLosAudios();
+    localStorage.setItem("pm_audio_enabled", "false");
+    currentAudio = null;
+    actualizarBotonAudio();
+  } else {
+    activarAudioActualDesdeBoton();
+  }
+}
+
+function activarAudioActualDesdeBoton(){
+  const area = localStorage.getItem("pm_area");
+  const cfg = audioMap[area];
+  if (!cfg) return;
+
+  pausarTodosLosAudios();
+
+  const audio = document.getElementById(cfg.id);
+  if (!audio) return;
+
+audio.volume = Number(localStorage.getItem("pm_audio_volume") || "0.45");
+  audio.play().then(() => {
+    currentAudio = cfg.id;
+    localStorage.setItem("pm_audio_enabled", "true");
+    actualizarBotonAudio();
+    actualizarTextoBotonAudio(); // <-- agrega esta línea
+
+  }).catch(() => {
+    mostrarPopup("No se pudo reproducir el audio. Intenta otra vez.");
+  });
+}
+
+function actualizarBotonAudio(){
+  const btn = document.getElementById("audioFloatingBtn");
+  if (!btn) return;
+
+  const enabled = localStorage.getItem("pm_audio_enabled") === "true";
+  btn.textContent = enabled ? "🔊" : "🔇";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  actualizarBotonAudio();
+  actualizarTextoBotonAudio();
+
+  const savedVolume = Number(localStorage.getItem("pm_audio_volume") || "0.45");
+  const slider = document.getElementById("audioVolumeRange");
+  if (slider) slider.value = Math.round(savedVolume * 100);
+});
+
+(function () {
+  const startBtn = document.getElementById("miniVizStart");
+  const skipBtn = document.getElementById("miniVizSkip");
+  const timerEl = document.getElementById("miniVizTimer");
+  const textEl = document.getElementById("miniVizText");
+  const continueBtn = document.getElementById("v1_btn");
+
+  if (!startBtn || !skipBtn || !timerEl || !textEl || !continueBtn) return;
+
+  let interval = null;
+
+  function finalizarMiniViz() {
+    clearInterval(interval);
+    textEl.textContent = "Listo. Ya diste una pequeña señal de enfoque a tu mente.";
+    timerEl.textContent = "✓";
+    startBtn.classList.add("hidden");
+    skipBtn.classList.add("hidden");
+    continueBtn.classList.remove("hidden");
+  }
+
+  startBtn.addEventListener("click", () => {
+    let total = 20;
+    startBtn.disabled = true;
+    skipBtn.disabled = true;
+
+    interval = setInterval(() => {
+      total--;
+
+      const seconds = String(total).padStart(2, "0");
+      timerEl.textContent = `00:${seconds}`;
+
+      if (total > 14) {
+        textEl.textContent = "Respira profundo...";
+      } else if (total > 9) {
+        textEl.textContent = "Imagina una escena pequeña donde ya vas avanzando...";
+      } else if (total > 4) {
+        textEl.textContent = "Nota qué emoción aparece en ti...";
+      } else if (total > 0) {
+        textEl.textContent = "Quédate con esa sensación un momento...";
+      } else {
+        finalizarMiniViz();
+      }
+    }, 1000);
+  });
+
+  skipBtn.addEventListener("click", () => {
+    textEl.textContent = "Está bien. Puedes seguir y volver a esta práctica después.";
+    timerEl.textContent = "—";
+    startBtn.classList.add("hidden");
+    skipBtn.classList.add("hidden");
+    continueBtn.classList.remove("hidden");
+  });
+})();
+
   async function guardarEmailLead() {
     const email = (document.getElementById("emailInput").value || "").trim().toLowerCase();
     const consent = document.getElementById("emailConsent").checked;
@@ -1128,17 +1452,23 @@ function getCurrentBlockFromDOM(){
 
     // ====== Guardar y cargar alegrías ancla (felicidad) ======
 function pm_saveFeliz(){
-  const a = [ 'd1_h1', 'd1_h2', 'd1_h3' ]
+  const a = [ 'd2_h1', 'd2_h2', 'd2_h3' ]
     .map(id => (document.getElementById(id)?.value || '').trim())
     .filter(Boolean)
     .map(s => s.length > 60 ? s.slice(0,60) : s);
 
   if (a.length < 3){
-    mostrarPopup("Por favor ingresa tus <b>3 alegrías ancla</b> (frases cortas).");
+    mostrarPopup("Por favor ingresa tus <b>3 alegrías ancla</b> en el Día 2.");
     return;
   }
+
   localStorage.setItem('pm_feliz', JSON.stringify(a));
-  popupEmocion('Alegrías guardadas', '✨ Listo. Cuando necesites subir tu vibración, toca el botón de <b>ayuda (?)</b> para verlas al instante.', '“Yo elijo recordar lo que me hace bien.”');
+
+  popupEmocion(
+    'Alegrías guardadas',
+    '✨ Listo. Tus 3 alegrías ancla quedaron guardadas y podrás verlas desde el botón <b>?</b>.',
+    '“Yo sé volver a lo que me hace bien.”'
+  );
 }
 
 // Precarga en campos si ya existen
@@ -1146,8 +1476,10 @@ document.addEventListener('DOMContentLoaded', () => {
   try{
     const a = JSON.parse(localStorage.getItem('pm_feliz') || '[]');
     if (Array.isArray(a) && a.length){
-      ['d1_h1','d1_h2','d1_h3'].forEach((id, i) => {
-        if (document.getElementById(id) && a[i]) document.getElementById(id).value = a[i];
+      ['d2_h1','d2_h2','d2_h3'].forEach((id, i) => {
+        if (document.getElementById(id) && a[i]) {
+          document.getElementById(id).value = a[i];
+        }
       });
     }
   }catch(e){}
@@ -1220,7 +1552,10 @@ function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt
     }
 
     /* ====== Guardados ====== */
-    function pm_setArea(a){ localStorage.setItem('pm_area', a); popupEmocion('Área elegida', `Has elegido <b>${a}</b> para este ciclo.`, '“Mi enfoque crea realidad.”'); }
+function pm_setArea(a){
+  localStorage.setItem('pm_area', a);
+  abrirPopupAudioSegunArea(a);
+}
     function pm_saveInt(){
       const v=(document.getElementById('d1_int').value||'').trim();
       if (v.length<5){ mostrarPopup("Escribe una intención clara (≥5 caracteres)."); return; }
