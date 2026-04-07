@@ -10,88 +10,358 @@
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Base */
-    :root{
-      --violet:#5b6ee1;
-      --indigo:#22306b;
-      --gold:#f5d061;
-      --rose:#ff8ba7;
-      --emerald:#10b981;
-    }
+  :root{
+    --violet:#7266f0;
+    --indigo:#22306b;
+    --gold:#f5d061;
+    --gold-soft:#ffe7a3;
+    --rose:#ff8ba7;
+    --rose-soft:#ffc2d1;
+    --emerald:#10b981;
+    --text-main:rgba(255,255,255,.96);
+    --text-soft:rgba(255,255,255,.82);
+    --text-muted:rgba(255,255,255,.68);
+    --border-soft:rgba(255,255,255,.12);
+  }
+
+  body{
+    background:
+      radial-gradient(1200px 700px at 50% -10%, #1b2240 0%, #0b1020 60%),
+      linear-gradient(180deg, #0b1020 0%, #0b1020 100%);
+    color:var(--text-main);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  main{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  section{
+    scroll-margin-top: 90px;
+  }
+
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.18));
+    border:1px solid var(--border-soft);
+    box-shadow:0 14px 40px rgba(0,0,0,.22);
+    backdrop-filter: blur(8px);
+  }
+
+  .fade-in{animation:fade .45s ease-out both}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+
+  .dia-circulo{
+    width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;position:relative;
+    box-shadow:0 6px 18px rgba(0,0,0,.22);
+  }
+
+  .chip-pro{
+    position:absolute;
+    bottom:-11px;
+    font-size:9px;
+    opacity:.95;
+    letter-spacing:.2px;
+  }
+
+  .progress-outer{height:7px;background:#1a2143}
+  .progress-inner{
+    height:7px;
+    background:linear-gradient(90deg, var(--gold), #fb7185);
+    width:0%;
+    box-shadow:0 0 16px rgba(245,208,97,.22);
+  }
+
+  .overlay{background:rgba(0,0,0,.94)}
+  .popup-card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.13), rgba(0,0,0,0.40));
+    border:1px solid rgba(255,255,255,0.20);
+    box-shadow:0 24px 80px rgba(0,0,0,.65);
+    backdrop-filter: blur(5px);
+  }
+
+  .viz-stage{
+    width:128px;
+    height:128px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+
+  .viz-orb{
+    width:76px;
+    height:76px;
+    border-radius:9999px;
+    background:radial-gradient(circle at 30% 30%, #fde68a, #fbbf24 70%);
+    box-shadow:0 0 0 0 rgba(251,191,36,.25);
+    transform:scale(1);
+    transition:transform .9s ease, box-shadow .9s ease, opacity .5s ease;
+  }
+
+  .viz-orb.expand{
+    transform:scale(1.35);
+    box-shadow:0 0 0 16px rgba(251,191,36,.08);
+  }
+
+  .viz-orb.soft{
+    transform:scale(1.12);
+    box-shadow:0 0 0 10px rgba(251,191,36,.06);
+  }
+
+  .viz-orb.done{
+    background:radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e 70%);
+    transform:scale(1.15);
+    box-shadow:0 0 0 14px rgba(34,197,94,.10);
+  }
+
+  .balloon{width:124px;height:124px;margin:0 auto;display:block}
+  .balloon__shape{transform-origin:50% 55%}
+  .phase-inhale .balloon__shape{animation:inhale 4s linear forwards}
+  .phase-hold   .balloon__shape{animation:hold 4s linear forwards}
+  .phase-exhale .balloon__shape{animation:exhale 4s linear forwards}
+  @keyframes inhale{0%{transform:scale(1)}100%{transform:scale(1.28)}}
+  @keyframes hold{0%{transform:scale(1.28)}100%{transform:scale(1.28)}}
+  @keyframes exhale{0%{transform:scale(1.28)}100%{transform:scale(0.95)}}
+  .phase-change{animation:micro 240ms ease-in-out}
+  @keyframes micro{0%{filter:brightness(1)}50%{filter:brightness(1.07)}100%{filter:brightness(1)}}
+
+  header h1{
+    letter-spacing:.6px;
+  }
+
+  header p{
+    font-size:.98rem;
+    color:var(--text-soft);
+  }
+
+  h2{
+    line-height:1.15;
+    letter-spacing:-.02em;
+  }
+
+  h3{
+    line-height:1.2;
+    letter-spacing:-.01em;
+  }
+
+  p{
+    line-height:1.6;
+  }
+
+  /* Jerarquía visual más clara */
+  .step-lead{
+    font-size:1rem;
+    line-height:1.65;
+    color:var(--text-soft);
+  }
+
+  .step-help{
+    font-size:.94rem;
+    line-height:1.6;
+    color:var(--text-muted);
+  }
+
+  .panel{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:1rem;
+  }
+
+  .panel-strong{
+    background:linear-gradient(180deg, rgba(245,208,97,.10), rgba(255,255,255,.04));
+    border:1px solid rgba(245,208,97,.20);
+    border-radius:16px;
+    padding:1rem;
+  }
+
+  .panel-soft{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:1rem;
+  }
+
+  .panel-title{
+    font-size:.98rem;
+    font-weight:700;
+    margin-bottom:.35rem;
+    color:var(--text-main);
+  }
+
+  .panel-text{
+    font-size:.95rem;
+    line-height:1.6;
+    color:var(--text-soft);
+  }
+
+  ul, ol{
+    line-height:1.65;
+  }
+
+  li{
+    margin-bottom:.2rem;
+  }
+
+  /* Inputs */
+  input, textarea{
+    font-size:1rem !important;
+    line-height:1.45;
+    color:var(--text-main);
+    border:1px solid rgba(255,255,255,.08);
+    transition:all .2s ease;
+  }
+
+  input::placeholder, textarea::placeholder{
+    color:rgba(255,255,255,.45);
+    font-size:.96rem;
+  }
+
+  input:focus, textarea:focus{
+    outline:none;
+    border-color:rgba(245,208,97,.35);
+    box-shadow:0 0 0 3px rgba(245,208,97,.10);
+    background:rgba(255,255,255,.13);
+  }
+
+  textarea{
+    min-height:120px;
+  }
+
+  /* Botones */
+  button, a{
+    transition:transform .15s ease, box-shadow .18s ease, opacity .18s ease;
+  }
+
+  button:hover, a:hover{
+    transform:translateY(-1px);
+  }
+
+  button:active, a:active{
+    transform:translateY(0);
+  }
+
+  .cta-main{
+    background:linear-gradient(180deg, #f5d061 0%, #e8bf42 100%);
+    color:#1f2937;
+    font-weight:800;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(245,208,97,.18);
+  }
+
+  .cta-secondary{
+    background:linear-gradient(180deg, #17c48c 0%, #10b981 100%);
+    color:white;
+    font-weight:700;
+    border-radius:14px;
+    box-shadow:0 10px 26px rgba(16,185,129,.16);
+  }
+
+  .cta-muted{
+    background:rgba(255,255,255,.10);
+    color:white;
+    border-radius:14px;
+  }
+
+  /* Footer */
+  #footerBolas{
+    box-shadow:0 -10px 30px rgba(0,0,0,.20);
+  }
+
+  /* Botón ayuda */
+  #helpBtn{
+    box-shadow:0 10px 24px rgba(245,208,97,.16);
+  }
+
+  /* Panel audio */
+  #audioControlPanel{
+    min-width: 190px;
+  }
+
+  /* Móvil */
+  @media (max-width: 640px){
     body{
-      background:
-        radial-gradient(1200px 700px at 50% -10%, #1b2240 0%, #0b1020 60%),
-        linear-gradient(180deg, #0b1020 0%, #0b1020 100%);
-    }
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.18)); border:1px solid rgba(255,255,255,0.1)}
-    .fade-in{animation:fade .45s ease-out both}
-    @keyframes fade{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
-    .dia-circulo{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;position:relative}
-    .chip-pro{position:absolute;bottom:-11px;font-size:9px;opacity:.9}
-    .progress-outer{height:6px;background:#1a2143}
-    .progress-inner{height:6px;background:linear-gradient(90deg, var(--gold), #fb7185);width:0%}
-
-    /* Popups (más opacos) */
-    .overlay{background:rgba(0,0,0,.94)}
-    .popup-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(0,0,0,0.38));
-      border:1px solid rgba(255,255,255,0.22);
-      box-shadow:0 24px 80px rgba(0,0,0,.65);
-      backdrop-filter: blur(3px);
+      font-size:16px;
     }
 
-.viz-stage{
-  width: 120px;
-  height: 120px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.viz-orb{
-  width: 68px;
-  height: 68px;
-  border-radius:9999px;
-  background: radial-gradient(circle at 30% 30%, #fde68a, #fbbf24 70%);
-  box-shadow: 0 0 0 0 rgba(251,191,36,.25);
-  transform: scale(1);
-  transition: transform .9s ease, box-shadow .9s ease, opacity .5s ease;
-}
-
-.viz-orb.expand{
-  transform: scale(1.35);
-  box-shadow: 0 0 0 16px rgba(251,191,36,.08);
-}
-
-.viz-orb.soft{
-  transform: scale(1.12);
-  box-shadow: 0 0 0 10px rgba(251,191,36,.06);
-}
-
-.viz-orb.done{
-  background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e 70%);
-  transform: scale(1.15);
-  box-shadow: 0 0 0 14px rgba(34,197,94,.10);
-}
-    /* Globo 4-4-4 progresivo */
-    .balloon{width:124px;height:124px;margin:0 auto;display:block}
-    .balloon__shape{transform-origin:50% 55%}
-    .phase-inhale .balloon__shape{animation:inhale 4s linear forwards}
-    .phase-hold   .balloon__shape{animation:hold 4s linear forwards}
-    .phase-exhale .balloon__shape{animation:exhale 4s linear forwards}
-    @keyframes inhale{0%{transform:scale(1)}100%{transform:scale(1.28)}}
-    @keyframes hold  {0%{transform:scale(1.28)}100%{transform:scale(1.28)}}
-    @keyframes exhale{0%{transform:scale(1.28)}100%{transform:scale(0.95)}}
-    .phase-change{animation:micro 240ms ease-in-out}
-    @keyframes micro{0%{filter:brightness(1)}50%{filter:brightness(1.07)}100%{filter:brightness(1)}}
-
-    /* Móvil horizontal: tipografía un poco más grande */
-    @media (max-height:480px) and (orientation:landscape){
-      body{font-size:1.05rem}
-      .btn{padding:.6rem 1rem}
+    main{
+      padding-left:1rem;
+      padding-right:1rem;
     }
-  </style>
+
+    header{
+      padding:1rem .9rem;
+    }
+
+    header h1{
+      font-size:1.55rem;
+    }
+
+    header p{
+      font-size:.98rem;
+    }
+
+    h2{
+      font-size:1.72rem !important;
+      margin-bottom:.6rem !important;
+    }
+
+    h3{
+      font-size:1.35rem !important;
+      margin-bottom:.55rem !important;
+    }
+
+    .card{
+      padding:1.1rem !important;
+      border-radius:22px !important;
+    }
+
+    .panel, .panel-strong, .panel-soft{
+      padding:.95rem;
+    }
+
+    p, .panel-text, .step-lead{
+      font-size:1rem !important;
+    }
+
+    .step-help{
+      font-size:.92rem !important;
+    }
+
+    .text-xs{
+      font-size:.92rem !important;
+      line-height:1.58 !important;
+    }
+
+    .text-sm{
+      font-size:1rem !important;
+      line-height:1.62 !important;
+    }
+
+    .text-base{
+      font-size:1.03rem !important;
+      line-height:1.68 !important;
+    }
+
+    button{
+      min-height:50px;
+    }
+
+    .grid.grid-cols-2{
+      grid-template-columns:1fr 1fr;
+      gap:.7rem;
+    }
+  }
+
+  @media (max-height:480px) and (orientation:landscape){
+    body{font-size:1.04rem}
+    .btn{padding:.65rem 1rem}
+  }
+</style>
 
   <!-- JSON-LD Software -->
   <script type="application/ld+json">
@@ -109,8 +379,8 @@
 <body class="text-white font-sans min-h-screen pb-20">
 
   <!-- HEADER -->
-  <header class="bg-[#0d1530]/70 backdrop-blur border-b border-white/10 p-4 text-center">
-    <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide" style="color:var(--gold)">PODER DE MANIFESTAR</h1>
+<header class="bg-[#0d1530]/70 backdrop-blur border-b border-white/10 p-4 text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide" style="color:var(--gold)">PODER DE MANIFESTAR</h1>
     <p id="titulo-dia" class="text-sm md:text-base text-white/80">Día 1 · Claridad de intención</p>
   </header>
 
@@ -231,8 +501,7 @@
 <audio id="audioProposito" preload="auto" loop src="./audio/proposito.mp3"></audio>
 
   <!-- CONTENIDO -->
-  <main id="contenedor" class="max-w-2xl mx-auto p-4 space-y-6 text-center">
-
+<main id="contenedor" class="max-w-2xl mx-auto px-4 py-4 space-y-7 text-center">
   <!-- ======= DÍA 1 (1..6) — FREE ======= -->
   <section id="b1" class="fade-in">
     <h2 class="text-2xl md:text-3xl font-bold mb-2" style="color:var(--gold)">Día 1 · Define exactamente qué quieres ✨</h2>
@@ -247,7 +516,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(1)">Empezar Día 1</button>
   </section>
 
-  <section id="b2" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b2" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Elige el área más importante para ti</h3>
     <p class="text-sm text-white/80 mb-3">Para que esto funcione mejor, vamos a trabajar <b>solo una área</b> en este ciclo. Elige la que hoy más te importa.</p>
 
@@ -274,7 +543,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(2)">Continuar</button>
   </section>
 
-  <section id="b3" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b3" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Escribe tu intención de forma clara</h3>
     <p class="text-sm text-white/80 mb-2">Ahora escribe lo que quieres como si ya estuvieras construyéndolo. Debe ser <b>claro, positivo y específico</b>.</p>
 
@@ -307,7 +576,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveInt()">Guardar intención</button>
   </section>
 
-  <section id="b4" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b4" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
   <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">
     3) Conecta con tu meta en solo 20 segundos
   </h3>
@@ -359,7 +628,7 @@
   </button>
 </section>
 
-  <section id="b5" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b5"class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">4) Repite tu intención 3 veces hoy</h3>
     <p class="text-sm text-white/80 mb-2">Elegir momentos del día hará que no se quede solo en una idea bonita. La meta es <b>recordarla conscientemente</b>.</p>
 
@@ -413,7 +682,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(7)">Empezar Día 2</button>
   </section>
 
-  <section id="b8" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b8" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Escribe 10 cosas por las que agradeces</h3>
     <p class="text-sm text-white/80 mb-2">No tienen que ser perfectas ni enormes. Solo cosas reales que hoy te hagan sentir agradecimiento.</p>
     <textarea id="d2_grat" rows="5" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="- Gracias por estar vivo hoy&#10;- Gracias por una oportunidad que se está acercando&#10;- Gracias por las personas que me apoyan&#10;(1 por línea)"></textarea>
@@ -455,7 +724,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="pm_saveGrat()">Guardar</button>
   </section>
 
-  <section id="b9" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b9" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Visualiza con emoción durante 60 segundos</h3>
     <p class="text-sm text-white/80 mb-2">Ahora imagina tu meta cumplida y siente una emoción sencilla: alivio, alegría, paz o gratitud.</p>
 
@@ -485,7 +754,7 @@
     <button id="v2_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
   </section>
 
-  <section id="b10" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b10" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Activa recordatorios de gratitud</h3>
     <p class="text-sm text-white/80 mb-2">Durante el día, harás pequeñas pausas para recordar que ya estás construyendo una nueva realidad.</p>
 
@@ -533,7 +802,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(12)">Empezar Día 3</button>
   </section>
 
-  <section id="b13" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b13" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Escribe 3 pensamientos que te estén frenando</h3>
     <p class="text-sm text-white/80 mb-2">No te juzgues. Solo escribe con sinceridad esas frases internas que suelen aparecer cuando piensas en tu meta.</p>
 
@@ -552,7 +821,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="pm_saveLim()">Guardar</button>
   </section>
 
-  <section id="b14" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b14" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Reescríbelos de una forma que te ayude</h3>
     <p class="text-sm text-white/80 mb-2">Ahora convierte esos pensamientos en frases nuevas. Deben sentirse <b>más útiles, más sanas y más posibles</b>.</p>
 
@@ -575,7 +844,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg mt-4" onclick="avanzar(14)">Continuar</button>
   </section>
 
-  <section id="b15" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b15" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Repítelas frente al espejo</h3>
     <p class="text-sm text-white/80 mb-2">Mírate con calma y repite tus nuevas frases. No lo hagas actuando: hazlo con honestidad.</p>
 
@@ -622,7 +891,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(17)">Empezar Día 4</button>
   </section>
 
-  <section id="b18" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b18" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Respira y relaja tu cuerpo</h3>
     <div id="v4_wrap" class="mx-auto mb-2">
       <svg class="balloon" viewBox="0 0 120 140" role="img" aria-label="Globo respiración 4-4-4">
@@ -649,7 +918,7 @@
     <button id="v4_btn" class="bg-[var(--gold)] text-gray-900 font-bold px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Continuar</button>
   </section>
 
-  <section id="b19" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b19" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Imagina una sola escena de logro</h3>
     <p class="text-sm text-white/80 mb-2">Elige una escena breve que represente que ya vas avanzando o ya lo lograste.</p>
     <div id="v4b_timer" class="text-3xl font-extrabold mb-3">04:00</div>
@@ -668,7 +937,7 @@
     <button id="v4b_btn" class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>Listo</button>
   </section>
 
-  <section id="b20" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b20" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">3) Elige tu palabra-ancla</h3>
     <p class="text-sm text-white/80 mb-2">Esta palabra te ayudará a volver rápido al estado que quieres sostener durante el día.</p>
     <input id="d4_word" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="Ej. confianza, calma, abundancia, merecimiento">
@@ -707,7 +976,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(22)">Empezar Día 5</button>
   </section>
 
-  <section id="b23" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b23" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Escribe 3 agradecimientos como si ya se estuvieran dando</h3>
     <textarea id="d5_gra" rows="4" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="- Gracias por la oportunidad que ya se está acercando&#10;- Gracias por la paz que estoy construyendo&#10;- Gracias por los cambios positivos que ya están en movimiento"></textarea>
 
@@ -725,7 +994,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveGra()">Guardar</button>
   </section>
 
-  <section id="b24" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b24" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Siente gratitud en tu cuerpo durante 60 segundos</h3>
     <div id="v5_timer" class="text-3xl font-extrabold mb-3">01:00</div>
 
@@ -764,7 +1033,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(26)">Empezar Día 6</button>
   </section>
 
-  <section id="b27" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b27" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Define 3 acciones pequeñas</h3>
     <input id="d6_a1" class="w-full bg-white/10 rounded-lg p-3 mb-2 placeholder-white/50" placeholder="Ej. Enviar un mensaje importante">
     <input id="d6_a2" class="w-full bg-white/10 rounded-lg p-3 mb-2 placeholder-white/50" placeholder="Ej. Actualizar una parte de mi CV o perfil">
@@ -788,7 +1057,7 @@
     <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg" onclick="pm_saveActs()">Guardar</button>
   </section>
 
-  <section id="b28" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b28" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">2) Haz la primera acción ahora</h3>
     <div id="v6_timer" class="text-3xl font-extrabold mb-3">05:00</div>
 
@@ -833,7 +1102,7 @@
     <button class="bg-[var(--gold)] text-gray-900 font-bold px-7 py-3 rounded-xl" onclick="avanzar(30)">Empezar Día 7</button>
   </section>
 
-  <section id="b31" class="hidden fade-in card rounded-2xl p-5">
+  <section id="b31" class="hidden fade-in card rounded-[22px] p-5 md:p-6">
     <h3 class="text-xl md:text-2xl font-bold mb-2" style="color:var(--gold)">1) Escríbete una carta de cierre</h3>
     <textarea id="d7_carta" rows="4" class="w-full bg-white/10 rounded-lg p-3 mb-3 placeholder-white/50" placeholder="Gracias por haberme comprometido con este proceso... Hoy reconozco que avancé en..."></textarea>
 
@@ -1513,13 +1782,13 @@ function mostrarAyudaDia(){
         <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
           <div class="text-sm font-bold mb-1" style="color:var(--gold)">Tus 3 alegrías ancla</div>
           <ul class="text-sm text-white/80 space-y-1">${items}</ul>
-          <p class="text-xs text-white/60 mt-2">Ve a Día 1 para editarlas cuando quieras.</p>
+<p class="text-xs text-white/60 mt-2">Ve a Día 2 para editarlas cuando quieras.</p>
         </div>`;
     } else {
       felizHTML = `
         <div class="bg-white/5 rounded-lg p-3 text-left mb-3">
           <div class="text-sm font-bold mb-1" style="color:var(--gold)">¿Día difícil?</div>
-          <p class="text-xs text-white/70">Guarda tus <b>3 alegrías ancla</b> en <b>Día 1</b> para subir tu vibración cuando lo necesites.</p>
+<p class="text-xs text-white/70">Guarda tus <b>3 alegrías ancla</b> en <b>Día 2</b> para subir tu vibración cuando lo necesites.</p>
         </div>`;
     }
   }catch(e){}
